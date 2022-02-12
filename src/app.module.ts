@@ -18,10 +18,10 @@ import { StatusMessagesModule } from './status-messages/status-messages.module';
   imports: [
     GraphQLModule.forRoot({
       typePaths: ['./**/*.graphql'],
-      resolvers: {
-        ...resolvers,
-      },
-      typeDefs: [...typeDefs],
+      // resolvers: {
+      //   ...resolvers,
+      // },
+      // typeDefs: [...typeDefs],
       definitions: {
         path: join(process.cwd(), 'src/graphql.ts'),
       },

@@ -3,6 +3,6 @@ import { StatusMessagesService } from './status-messages.service';
 import { StatusMessagesResolver } from './status-messages.resolver';
 
 @Module({
-  providers: [StatusMessagesResolver, StatusMessagesService]
+  providers: [StatusMessagesResolver, StatusMessagesService],
 })
 export class StatusMessagesModule {}

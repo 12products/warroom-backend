@@ -19,7 +19,7 @@ input UpdateEventInput {
 type Query {
   events: [Event]!
   event(id: ID!): Event
-  eventsByIncidentId(incidentId: ID!)[Event]
+  eventsByIncidentId(incidentId: ID!): [Event]
 }
 
 type Mutation {

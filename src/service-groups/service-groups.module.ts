@@ -3,6 +3,6 @@ import { ServiceGroupsService } from './service-groups.service';
 import { ServiceGroupsResolver } from './service-groups.resolver';
 
 @Module({
-  providers: [ServiceGroupsResolver, ServiceGroupsService]
+  providers: [ServiceGroupsResolver, ServiceGroupsService],
 })
 export class ServiceGroupsModule {}

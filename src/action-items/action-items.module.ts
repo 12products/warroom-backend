@@ -3,6 +3,6 @@ import { ActionItemsService } from './action-items.service';
 import { ActionItemsResolver } from './action-items.resolver';
 
 @Module({
-  providers: [ActionItemsResolver, ActionItemsService]
+  providers: [ActionItemsResolver, ActionItemsService],
 })
 export class ActionItemsModule {}

@@ -1,4 +1,4 @@
-scalar DateTime
+# scalar DateTime
 
 type User {
   id: ID!

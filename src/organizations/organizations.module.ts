@@ -3,6 +3,6 @@ import { OrganizationsService } from './organizations.service';
 import { OrganizationsResolver } from './organizations.resolver';
 
 @Module({
-  providers: [OrganizationsResolver, OrganizationsService]
+  providers: [OrganizationsResolver, OrganizationsService],
 })
 export class OrganizationsModule {}
