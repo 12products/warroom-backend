@@ -1,24 +1,41 @@
 type Organization {
-  # Example field (placeholder)
-  exampleField: Int
+  id: ID!
+  name: String
+  incidents: [Incident]
+  services: [Service]
+  users: [User]
+  serviceGroups: [ServiceGroup]
+  createdAt: DateTime!
+  updatedAt: DateTime!
 }
-
 input CreateOrganizationInput {
-  # Example field (placeholder)
-  exampleField: Int
+  name: String
+  incidents: [Incident]
+  services: [Service]
+  users: [User]
+  serviceGroups: [ServiceGroup]
 }
 
 input UpdateOrganizationInput {
-  id: Int!
+  id: ID!
+  name: String
+  incidents: [Incident]
+  services: [Service]
+  users: [User]
+  serviceGroups: [ServiceGroup]
 }
 
 type Query {
   organizations: [Organization]!
-  organization(id: Int!): Organization
+  organization(id: ID!): Organization
 }
 
 type Mutation {
-  createOrganization(createOrganizationInput: CreateOrganizationInput!): Organization!
-  updateOrganization(updateOrganizationInput: UpdateOrganizationInput!): Organization!
-  removeOrganization(id: Int!): Organization
+  createOrganization(
+    createOrganizationInput: CreateOrganizationInput!
+  ): Organization!
+  updateOrganization(
+    updateOrganizationInput: UpdateOrganizationInput!
+  ): Organization!
+  removeOrganization(id: ID!): Organization
 }

@@ -1,24 +1,29 @@
 type Event {
-  # Example field (placeholder)
-  exampleField: Int
+  id: ID!
+  text: String
+  incident: Incident
+  createdAt: DateTime!
+  updatedAt: DateTime!
 }
-
 input CreateEventInput {
-  # Example field (placeholder)
-  exampleField: Int
+  text: String!
+  incident: Incident
 }
 
 input UpdateEventInput {
-  id: Int!
+  id: ID!
+  text: String
+  incident: Incident
 }
 
 type Query {
   events: [Event]!
-  event(id: Int!): Event
+  event(id: ID!): Event
+  eventsByIncidentId(incidentId: ID!)[Event]
 }
 
 type Mutation {
   createEvent(createEventInput: CreateEventInput!): Event!
   updateEvent(updateEventInput: UpdateEventInput!): Event!
-  removeEvent(id: Int!): Event
+  removeEvent(id: ID!): Event
 }

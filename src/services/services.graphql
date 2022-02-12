@@ -1,24 +1,53 @@
 type Service {
-  # Example field (placeholder)
-  exampleField: Int
+  id: ID!
+  name: String!
+  description: String
+  status: ServiceStatus
+  link: String
+  private: Boolean
+  incident: [Incident]
+  organization: Organization
+  serviceGroup: ServiceGroup
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+enum ServiceStatus {
+  OPERATIONAL
+  PARTIAL_OUTAGE
+  MAJOR_OUTAGE
 }
 
 input CreateServiceInput {
-  # Example field (placeholder)
-  exampleField: Int
+  name: String!
+  description: String
+  status: ServiceStatus
+  link: String
+  private: Boolean
+  incident: [Incident]
+  organization: Organization
+  serviceGroup: ServiceGroup
 }
 
 input UpdateServiceInput {
-  id: Int!
+  id: ID!
+  name: String
+  description: String
+  status: ServiceStatus
+  link: String
+  private: Boolean
+  incident: [Incident]
+  organization: Organization
+  serviceGroup: ServiceGroup
 }
 
 type Query {
   services: [Service]!
-  service(id: Int!): Service
+  service(id: ID!): Service
 }
 
 type Mutation {
   createService(createServiceInput: CreateServiceInput!): Service!
   updateService(updateServiceInput: UpdateServiceInput!): Service!
-  removeService(id: Int!): Service
+  removeService(id: ID!): Service
 }

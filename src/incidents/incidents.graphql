@@ -1,24 +1,52 @@
 type Incident {
-  # Example field (placeholder)
-  exampleField: Int
+  id: ID!
+  description: String
+  status: IncidentStatus
+  service: Service
+  organization: Organization
+  events: [Event]
+  statusMessage: [StatusMessage]
+  actionItems: [ActionItems]
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+enum IncidentStatus {
+  INVESTIGATING
+  IDENTIFIED
+  MONITORING
+  RESOLVED
 }
 
 input CreateIncidentInput {
-  # Example field (placeholder)
-  exampleField: Int
+  description: String
+  status: IncidentStatus
+  service: Service
+  organization: Organization
+  events: [Event]
+  statusMessage: [StatusMessage]
+  actionItems: [ActionItems]
 }
 
 input UpdateIncidentInput {
-  id: Int!
+  id: ID!
+  description: String
+  status: IncidentStatus
+  service: Service
+  organization: Organization
+  events: [Event]
+  statusMessage: [StatusMessage]
+  actionItems: [ActionItems]
 }
 
 type Query {
   incidents: [Incident]!
-  incident(id: Int!): Incident
+  incident(id: ID!): Incident
+  incidentsByOrganizationId(orgId: ID!) [Incident]!
 }
 
 type Mutation {
   createIncident(createIncidentInput: CreateIncidentInput!): Incident!
   updateIncident(updateIncidentInput: UpdateIncidentInput!): Incident!
-  removeIncident(id: Int!): Incident
+  removeIncident(id: ID!): Incident
 }

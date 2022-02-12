@@ -1,24 +1,34 @@
-type ActionItem {
-  # Example field (placeholder)
-  exampleField: Int
+type ActionItems {
+  id: ID!
+  text: String!
+  owner: User!
+  incident: Incident
+  createdAt: DateTime!
+  updatedAt: DateTime!
 }
 
 input CreateActionItemInput {
-  # Example field (placeholder)
-  exampleField: Int
+  text: String!
+  owner: User
+  incident: Incident
 }
 
 input UpdateActionItemInput {
   id: Int!
+  text: String
+  owner: User
+  incident: Incident
 }
 
 type Query {
   actionItems: [ActionItem]!
-  actionItem(id: Int!): ActionItem
+  actionItem(id: ID!): ActionItem
+  actionItemsByUserID(userId: ID!): [ActionItem]
+  actionItemsByIncidentID(incidentId: ID!): [ActionItem]
 }
 
 type Mutation {
   createActionItem(createActionItemInput: CreateActionItemInput!): ActionItem!
   updateActionItem(updateActionItemInput: UpdateActionItemInput!): ActionItem!
-  removeActionItem(id: Int!): ActionItem
+  removeActionItem(id: ID!): ActionItem
 }

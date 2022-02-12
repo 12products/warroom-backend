@@ -12,37 +12,34 @@ type User {
   actionItems: [ActionItems]
 }
 
-type Organization {
-
-}
-
-type ActionItems {
-  id:         ID!
-  text:       String!
-  owner:      User!     
-  user:     User!
-  incident: Incident
-  createdAt:  DateTime!  
-  updatedAt:  DateTime! 
-}
-
 input CreateUserInput {
-  exampleField: Int
+  firstName: String!
+  lastName: String
+  email: String
+  role: Role
+  organization: Organization
+  actionItems: [ActionItem]
 }
 
 input UpdateUserInput {
-  id: Int!
+  id: ID!
+  firstName: String
+  lastName: String
+  email: String
+  role: Role
+  organization: Organization
+  actionItems: [ActionItem]
 }
 
 type Query {
   users: [User]!
-  user(id: Int!): User
+  user(id: ID!): User
 }
 
 type Mutation {
   createUser(createUserInput: CreateUserInput!): User!
   updateUser(updateUserInput: UpdateUserInput!): User!
-  removeUser(id: Int!): User
+  removeUser(id: ID!): User
 }
 
 enum Role {

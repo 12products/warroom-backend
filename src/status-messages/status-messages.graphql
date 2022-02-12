@@ -1,24 +1,36 @@
 type StatusMessage {
-  # Example field (placeholder)
-  exampleField: Int
+  id: ID!
+  text: String
+  incident: Incident
+  status: IncidentStatus
+  createdAt: DateTime!
+  updatedAt: DateTime!
 }
 
 input CreateStatusMessageInput {
-  # Example field (placeholder)
-  exampleField: Int
+  text: String
+  incident: Incident
+  status: IncidentStatus
 }
 
 input UpdateStatusMessageInput {
-  id: Int!
+  id: ID!
+  text: String
+  incident: Incident
+  status: IncidentStatus
 }
 
 type Query {
   statusMessages: [StatusMessage]!
-  statusMessage(id: Int!): StatusMessage
+  statusMessage(id: ID!): StatusMessage
 }
 
 type Mutation {
-  createStatusMessage(createStatusMessageInput: CreateStatusMessageInput!): StatusMessage!
-  updateStatusMessage(updateStatusMessageInput: UpdateStatusMessageInput!): StatusMessage!
-  removeStatusMessage(id: Int!): StatusMessage
+  createStatusMessage(
+    createStatusMessageInput: CreateStatusMessageInput!
+  ): StatusMessage!
+  updateStatusMessage(
+    updateStatusMessageInput: UpdateStatusMessageInput!
+  ): StatusMessage!
+  removeStatusMessage(id: ID!): StatusMessage
 }
