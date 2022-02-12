@@ -1,0 +1,24 @@
+type Service {
+  # Example field (placeholder)
+  exampleField: Int
+}
+
+input CreateServiceInput {
+  # Example field (placeholder)
+  exampleField: Int
+}
+
+input UpdateServiceInput {
+  id: Int!
+}
+
+type Query {
+  services: [Service]!
+  service(id: Int!): Service
+}
+
+type Mutation {
+  createService(createServiceInput: CreateServiceInput!): Service!
+  updateService(updateServiceInput: UpdateServiceInput!): Service!
+  removeService(id: Int!): Service
+}

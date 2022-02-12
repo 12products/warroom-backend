@@ -1,0 +1,24 @@
+type StatusMessage {
+  # Example field (placeholder)
+  exampleField: Int
+}
+
+input CreateStatusMessageInput {
+  # Example field (placeholder)
+  exampleField: Int
+}
+
+input UpdateStatusMessageInput {
+  id: Int!
+}
+
+type Query {
+  statusMessages: [StatusMessage]!
+  statusMessage(id: Int!): StatusMessage
+}
+
+type Mutation {
+  createStatusMessage(createStatusMessageInput: CreateStatusMessageInput!): StatusMessage!
+  updateStatusMessage(updateStatusMessageInput: UpdateStatusMessageInput!): StatusMessage!
+  removeStatusMessage(id: Int!): StatusMessage
+}

@@ -1,0 +1,24 @@
+type Incident {
+  # Example field (placeholder)
+  exampleField: Int
+}
+
+input CreateIncidentInput {
+  # Example field (placeholder)
+  exampleField: Int
+}
+
+input UpdateIncidentInput {
+  id: Int!
+}
+
+type Query {
+  incidents: [Incident]!
+  incident(id: Int!): Incident
+}
+
+type Mutation {
+  createIncident(createIncidentInput: CreateIncidentInput!): Incident!
+  updateIncident(updateIncidentInput: UpdateIncidentInput!): Incident!
+  removeIncident(id: Int!): Incident
+}

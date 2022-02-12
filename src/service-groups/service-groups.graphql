@@ -1,0 +1,24 @@
+type ServiceGroup {
+  # Example field (placeholder)
+  exampleField: Int
+}
+
+input CreateServiceGroupInput {
+  # Example field (placeholder)
+  exampleField: Int
+}
+
+input UpdateServiceGroupInput {
+  id: Int!
+}
+
+type Query {
+  serviceGroups: [ServiceGroup]!
+  serviceGroup(id: Int!): ServiceGroup
+}
+
+type Mutation {
+  createServiceGroup(createServiceGroupInput: CreateServiceGroupInput!): ServiceGroup!
+  updateServiceGroup(updateServiceGroupInput: UpdateServiceGroupInput!): ServiceGroup!
+  removeServiceGroup(id: Int!): ServiceGroup
+}

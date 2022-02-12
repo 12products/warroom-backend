@@ -1,0 +1,24 @@
+type ActionItem {
+  # Example field (placeholder)
+  exampleField: Int
+}
+
+input CreateActionItemInput {
+  # Example field (placeholder)
+  exampleField: Int
+}
+
+input UpdateActionItemInput {
+  id: Int!
+}
+
+type Query {
+  actionItems: [ActionItem]!
+  actionItem(id: Int!): ActionItem
+}
+
+type Mutation {
+  createActionItem(createActionItemInput: CreateActionItemInput!): ActionItem!
+  updateActionItem(updateActionItemInput: UpdateActionItemInput!): ActionItem!
+  removeActionItem(id: Int!): ActionItem
+}

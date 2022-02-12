@@ -1,0 +1,24 @@
+type Organization {
+  # Example field (placeholder)
+  exampleField: Int
+}
+
+input CreateOrganizationInput {
+  # Example field (placeholder)
+  exampleField: Int
+}
+
+input UpdateOrganizationInput {
+  id: Int!
+}
+
+type Query {
+  organizations: [Organization]!
+  organization(id: Int!): Organization
+}
+
+type Mutation {
+  createOrganization(createOrganizationInput: CreateOrganizationInput!): Organization!
+  updateOrganization(updateOrganizationInput: UpdateOrganizationInput!): Organization!
+  removeOrganization(id: Int!): Organization
+}
