@@ -1,5 +1,3 @@
-# scalar DateTime
-
 type User {
   id: ID!
   firstName: String!
@@ -9,7 +7,7 @@ type User {
   organization: Organization
   createdAt: DateTime!
   updatedAt: DateTime!
-  actionItems: [ActionItems]
+  actionItems: [ActionItem]
 }
 
 input CreateUserInput {
@@ -17,8 +15,6 @@ input CreateUserInput {
   lastName: String
   email: String
   role: Role
-  organization: Organization
-  actionItems: [ActionItem]
 }
 
 input UpdateUserInput {
@@ -27,8 +23,6 @@ input UpdateUserInput {
   lastName: String
   email: String
   role: Role
-  organization: Organization
-  actionItems: [ActionItem]
 }
 
 type Query {

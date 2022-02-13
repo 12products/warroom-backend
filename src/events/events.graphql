@@ -7,13 +7,13 @@ type Event {
 }
 input CreateEventInput {
   text: String!
-  incident: Incident
+  incidentId: String
 }
 
 input UpdateEventInput {
   id: ID!
   text: String
-  incident: Incident
+  incidentId: String
 }
 
 type Query {

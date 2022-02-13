@@ -1,4 +1,4 @@
-type ActionItems {
+type ActionItem {
   id: ID!
   text: String!
   owner: User!
@@ -9,15 +9,15 @@ type ActionItems {
 
 input CreateActionItemInput {
   text: String!
-  owner: User
-  incident: Incident
+  ownerId: String
+  incidentId: String
 }
 
 input UpdateActionItemInput {
-  id: Int!
+  id: ID!
   text: String
-  owner: User
-  incident: Incident
+  ownerId: String
+  incidentId: String
 }
 
 type Query {

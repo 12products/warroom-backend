@@ -24,9 +24,7 @@ input CreateServiceInput {
   status: ServiceStatus
   link: String
   private: Boolean
-  incident: [Incident]
-  organization: Organization
-  serviceGroup: ServiceGroup
+  serviceGroupId: String
 }
 
 input UpdateServiceInput {
@@ -36,9 +34,7 @@ input UpdateServiceInput {
   status: ServiceStatus
   link: String
   private: Boolean
-  incident: [Incident]
-  organization: Organization
-  serviceGroup: ServiceGroup
+  serviceGroupId: String
 }
 
 type Query {

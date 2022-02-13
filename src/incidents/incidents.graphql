@@ -6,7 +6,7 @@ type Incident {
   organization: Organization
   events: [Event]
   statusMessage: [StatusMessage]
-  actionItems: [ActionItems]
+  actionItems: [ActionItem]
   createdAt: DateTime!
   updatedAt: DateTime!
 }
@@ -20,23 +20,15 @@ enum IncidentStatus {
 
 input CreateIncidentInput {
   description: String
-  status: IncidentStatus
-  service: Service
-  organization: Organization
-  events: [Event]
-  statusMessage: [StatusMessage]
-  actionItems: [ActionItems]
+  incidentStatus: IncidentStatus
+  serviceId: String
 }
 
 input UpdateIncidentInput {
   id: ID!
   description: String
-  status: IncidentStatus
-  service: Service
-  organization: Organization
-  events: [Event]
-  statusMessage: [StatusMessage]
-  actionItems: [ActionItems]
+  incidentStatus: IncidentStatus
+  serviceId: String
 }
 
 type Query {

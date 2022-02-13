@@ -7,15 +7,11 @@ type ServiceGroup {
 
 input CreateServiceGroupInput {
   name: String
-  services: [Service]
-  organization: Organization
 }
 
 input UpdateServiceGroupInput {
   id: ID!
   name: String
-  services: [Service]
-  organization: Organization
 }
 
 type Query {

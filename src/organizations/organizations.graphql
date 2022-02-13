@@ -8,21 +8,14 @@ type Organization {
   createdAt: DateTime!
   updatedAt: DateTime!
 }
+
 input CreateOrganizationInput {
   name: String
-  incidents: [Incident]
-  services: [Service]
-  users: [User]
-  serviceGroups: [ServiceGroup]
 }
 
 input UpdateOrganizationInput {
   id: ID!
   name: String
-  incidents: [Incident]
-  services: [Service]
-  users: [User]
-  serviceGroups: [ServiceGroup]
 }
 
 type Query {

@@ -9,14 +9,13 @@ type StatusMessage {
 
 input CreateStatusMessageInput {
   text: String
-  incident: Incident
+  incidentId: String
   status: IncidentStatus
 }
 
 input UpdateStatusMessageInput {
   id: ID!
   text: String
-  incident: Incident
   status: IncidentStatus
 }
 
