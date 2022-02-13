@@ -1,0 +1,44 @@
+type Incident {
+  id: ID!
+  description: String
+  status: IncidentStatus
+  service: Service
+  organization: Organization
+  events: [Event]
+  statusMessage: [StatusMessage]
+  actionItems: [ActionItem]
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+enum IncidentStatus {
+  INVESTIGATING
+  IDENTIFIED
+  MONITORING
+  RESOLVED
+}
+
+input CreateIncidentInput {
+  description: String
+  incidentStatus: IncidentStatus
+  serviceId: String
+}
+
+input UpdateIncidentInput {
+  id: ID!
+  description: String
+  incidentStatus: IncidentStatus
+  serviceId: String
+}
+
+type Query {
+  incidents: [Incident]!
+  incident(id: ID!): Incident
+  incidentsByOrganizationId(orgId: ID!): [Incident]!
+}
+
+type Mutation {
+  createIncident(createIncidentInput: CreateIncidentInput!): Incident!
+  updateIncident(updateIncidentInput: UpdateIncidentInput!): Incident!
+  removeIncident(id: ID!): Incident
+}

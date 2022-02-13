@@ -1,0 +1,30 @@
+type ServiceGroup {
+  id: ID!
+  name: String
+  services: [Service]
+  organization: Organization
+}
+
+input CreateServiceGroupInput {
+  name: String
+}
+
+input UpdateServiceGroupInput {
+  id: ID!
+  name: String
+}
+
+type Query {
+  serviceGroups: [ServiceGroup]!
+  serviceGroup(id: ID!): ServiceGroup
+}
+
+type Mutation {
+  createServiceGroup(
+    createServiceGroupInput: CreateServiceGroupInput!
+  ): ServiceGroup!
+  updateServiceGroup(
+    updateServiceGroupInput: UpdateServiceGroupInput!
+  ): ServiceGroup!
+  removeServiceGroup(id: ID!): ServiceGroup
+}

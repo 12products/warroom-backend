@@ -1,0 +1,49 @@
+type Service {
+  id: ID!
+  name: String!
+  description: String
+  status: ServiceStatus
+  link: String
+  private: Boolean
+  incident: [Incident]
+  organization: Organization
+  serviceGroup: ServiceGroup
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+enum ServiceStatus {
+  OPERATIONAL
+  PARTIAL_OUTAGE
+  MAJOR_OUTAGE
+}
+
+input CreateServiceInput {
+  name: String!
+  description: String
+  status: ServiceStatus
+  link: String
+  private: Boolean
+  serviceGroupId: String
+}
+
+input UpdateServiceInput {
+  id: ID!
+  name: String
+  description: String
+  status: ServiceStatus
+  link: String
+  private: Boolean
+  serviceGroupId: String
+}
+
+type Query {
+  services: [Service]!
+  service(id: ID!): Service
+}
+
+type Mutation {
+  createService(createServiceInput: CreateServiceInput!): Service!
+  updateService(updateServiceInput: UpdateServiceInput!): Service!
+  removeService(id: ID!): Service
+}

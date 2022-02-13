@@ -1,0 +1,34 @@
+type Organization {
+  id: ID!
+  name: String
+  incidents: [Incident]
+  services: [Service]
+  users: [User]
+  serviceGroups: [ServiceGroup]
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+input CreateOrganizationInput {
+  name: String
+}
+
+input UpdateOrganizationInput {
+  id: ID!
+  name: String
+}
+
+type Query {
+  organizations: [Organization]!
+  organization(id: ID!): Organization
+}
+
+type Mutation {
+  createOrganization(
+    createOrganizationInput: CreateOrganizationInput!
+  ): Organization!
+  updateOrganization(
+    updateOrganizationInput: UpdateOrganizationInput!
+  ): Organization!
+  removeOrganization(id: ID!): Organization
+}

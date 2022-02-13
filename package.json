@@ -7,6 +7,7 @@
   "license": "UNLICENSED",
   "scripts": {
     "prebuild": "rimraf dist",
+    "type:gen": "npx ts-node src/generate-typings",
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
@@ -21,12 +22,22 @@
     "test:e2e": "jest --config ./test/jest-e2e.json"
   },
   "dependencies": {
+    "@apollo/gateway": "^0.48.1",
     "@nestjs/common": "^8.0.0",
     "@nestjs/core": "^8.0.0",
+    "@nestjs/graphql": "^9.1.2",
+    "@nestjs/mapped-types": "*",
     "@nestjs/platform-express": "^8.0.0",
+    "@prisma/client": "^3.9.1",
+    "apollo-server-express": "^2",
+    "graphql": "15.7.2",
+    "graphql-scalars": "^1.14.1",
+    "graphql-tools": "^8.2.0",
+    "prisma": "^3.9.1",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
-    "rxjs": "^7.2.0"
+    "rxjs": "^7.2.0",
+    "ts-morph": "^13.0.3"
   },
   "devDependencies": {
     "@nestjs/cli": "^8.0.0",

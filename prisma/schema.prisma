@@ -1,0 +1,124 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id             String        @id @default(uuid())
+  firstName      String
+  lastName       String
+  email          String
+  role           Role          @default(ADMIN)
+  organization   Organization  @relation(fields: [organizationId], references: [id])
+  organizationId String
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+  actionItems    ActionItems[]
+}
+
+model Organization {
+  id            String         @id @default(uuid())
+  name          String
+  incidents     Incident[]
+  services      Service[]
+  users         User[]
+  serviceGroups ServiceGroup[]
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+}
+
+model ServiceGroup {
+  id             String        @id @default(uuid())
+  name           String
+  services       Service[]
+  organization   Organization? @relation(fields: [organizationId], references: [id])
+  organizationId String?
+}
+
+model Service {
+  id             String        @id @default(uuid())
+  name           String
+  description    String
+  status         ServiceStatus @default(OPERATIONAL)
+  link           String?
+  private        Boolean
+  incident       Incident[]
+  organization   Organization  @relation(fields: [organizationId], references: [id])
+  organizationId String
+  serviceGroup   ServiceGroup? @relation(fields: [serviceGroupId], references: [id])
+  serviceGroupId String?
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+}
+
+model Incident {
+  id              String          @id @default(uuid())
+  description     String
+  status          IncidentStatus  @default(INVESTIGATING)
+  service         Service         @relation(fields: [serviceId], references: [id])
+  serviceId       String
+  organization    Organization    @relation(fields: [organizationId], references: [id])
+  organizationId  String
+  statusMessage   StatusMessage[]
+  events          Event[]
+  actionItems     ActionItems[]
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+  statusMessageId String
+}
+
+model Event {
+  id         String    @id @default(uuid())
+  text       String
+  incident   Incident? @relation(fields: [incidentId], references: [id])
+  incidentId String?
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+}
+
+model ActionItems {
+  id         String    @id @default(uuid())
+  text       String
+  owner      User      @relation(fields: [userId], references: [id])
+  userId     String
+  incident   Incident? @relation(fields: [incidentId], references: [id])
+  incidentId String?
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+}
+
+model StatusMessage {
+  id         String         @id @default(uuid())
+  text       String
+  incident   Incident       @relation(fields: [incidentId], references: [id])
+  incidentId String
+  status     IncidentStatus
+  createdAt  DateTime       @default(now())
+  updatedAt  DateTime       @updatedAt
+}
+
+enum Role {
+  ADMIN
+  EDITOR
+  VIEWER
+}
+
+enum ServiceStatus {
+  OPERATIONAL
+  PARTIAL_OUTAGE
+  MAJOR_OUTAGE
+}
+
+enum IncidentStatus {
+  INVESTIGATING
+  IDENTIFIED
+  MONITORING
+  RESOLVED
+}

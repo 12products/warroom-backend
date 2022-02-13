@@ -1,0 +1,29 @@
+type Event {
+  id: ID!
+  text: String
+  incident: Incident
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+input CreateEventInput {
+  text: String!
+  incidentId: String
+}
+
+input UpdateEventInput {
+  id: ID!
+  text: String
+  incidentId: String
+}
+
+type Query {
+  events: [Event]!
+  event(id: ID!): Event
+  eventsByIncidentId(incidentId: ID!): [Event]
+}
+
+type Mutation {
+  createEvent(createEventInput: CreateEventInput!): Event!
+  updateEvent(updateEventInput: UpdateEventInput!): Event!
+  removeEvent(id: ID!): Event
+}

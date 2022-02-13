@@ -1,0 +1,43 @@
+type User {
+  id: ID!
+  firstName: String!
+  lastName: String!
+  email: String!
+  role: Role!
+  organization: Organization
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  actionItems: [ActionItem]
+}
+
+input CreateUserInput {
+  firstName: String!
+  lastName: String
+  email: String
+  role: Role
+}
+
+input UpdateUserInput {
+  id: ID!
+  firstName: String
+  lastName: String
+  email: String
+  role: Role
+}
+
+type Query {
+  users: [User]!
+  user(id: ID!): User
+}
+
+type Mutation {
+  createUser(createUserInput: CreateUserInput!): User!
+  updateUser(updateUserInput: UpdateUserInput!): User!
+  removeUser(id: ID!): User
+}
+
+enum Role {
+  ADMIN
+  EDITOR
+  VIEWER
+}

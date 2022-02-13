@@ -1,0 +1,35 @@
+type StatusMessage {
+  id: ID!
+  text: String
+  incident: Incident
+  status: IncidentStatus
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+input CreateStatusMessageInput {
+  text: String
+  incidentId: String
+  status: IncidentStatus
+}
+
+input UpdateStatusMessageInput {
+  id: ID!
+  text: String
+  status: IncidentStatus
+}
+
+type Query {
+  statusMessages: [StatusMessage]!
+  statusMessage(id: ID!): StatusMessage
+}
+
+type Mutation {
+  createStatusMessage(
+    createStatusMessageInput: CreateStatusMessageInput!
+  ): StatusMessage!
+  updateStatusMessage(
+    updateStatusMessageInput: UpdateStatusMessageInput!
+  ): StatusMessage!
+  removeStatusMessage(id: ID!): StatusMessage
+}

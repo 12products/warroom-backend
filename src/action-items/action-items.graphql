@@ -1,0 +1,34 @@
+type ActionItem {
+  id: ID!
+  text: String!
+  owner: User!
+  incident: Incident
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+input CreateActionItemInput {
+  text: String!
+  ownerId: String
+  incidentId: String
+}
+
+input UpdateActionItemInput {
+  id: ID!
+  text: String
+  ownerId: String
+  incidentId: String
+}
+
+type Query {
+  actionItems: [ActionItem]!
+  actionItem(id: ID!): ActionItem
+  actionItemsByUserID(userId: ID!): [ActionItem]
+  actionItemsByIncidentID(incidentId: ID!): [ActionItem]
+}
+
+type Mutation {
+  createActionItem(createActionItemInput: CreateActionItemInput!): ActionItem!
+  updateActionItem(updateActionItemInput: UpdateActionItemInput!): ActionItem!
+  removeActionItem(id: ID!): ActionItem
+}
