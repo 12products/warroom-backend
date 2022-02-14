@@ -101,9 +101,9 @@ export interface UpdateServiceInput {
 }
 
 export interface CreateStatusMessageInput {
-    text?: Nullable<string>;
-    incidentId?: Nullable<string>;
-    status?: Nullable<IncidentStatus>;
+    text: string;
+    incidentId: string;
+    status: IncidentStatus;
 }
 
 export interface UpdateStatusMessageInput {

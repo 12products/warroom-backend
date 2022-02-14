@@ -8,9 +8,9 @@ type StatusMessage {
 }
 
 input CreateStatusMessageInput {
-  text: String
-  incidentId: String
-  status: IncidentStatus
+  text: String!
+  incidentId: String!
+  status: IncidentStatus!
 }
 
 input UpdateStatusMessageInput {

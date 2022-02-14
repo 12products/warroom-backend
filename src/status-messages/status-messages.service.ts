@@ -1,26 +1,44 @@
 import { Injectable } from '@nestjs/common';
-import { CreateStatusMessageInput } from './dto/create-status-message.input';
-import { UpdateStatusMessageInput } from './dto/update-status-message.input';
+import { StatusMessage } from '@prisma/client';
+import { DatabaseService } from 'src/database/database.service';
+import { CreateStatusMessageInput, UpdateStatusMessageInput } from '../graphql';
 
 @Injectable()
 export class StatusMessagesService {
-  create(createStatusMessageInput: CreateStatusMessageInput) {
-    return 'This action adds a new statusMessage';
+  constructor(private readonly db: DatabaseService) {}
+  async create(
+    createStatusMessageInput: CreateStatusMessageInput,
+  ): Promise<StatusMessage> {
+    return this.db.statusMessage.create({
+      data: { ...createStatusMessageInput },
+    });
   }
 
-  findAll() {
-    return `This action returns all statusMessages`;
+  async findAll(): Promise<StatusMessage[]> {
+    return this.db.statusMessage.findMany({});
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} statusMessage`;
+  async findOne(id: string): Promise<StatusMessage> {
+    return this.db.statusMessage.findUnique({
+      where: { id },
+    });
   }
 
-  update(id: number, updateStatusMessageInput: UpdateStatusMessageInput) {
-    return `This action updates a #${id} statusMessage`;
+  async update(
+    updateStatusMessageInput: UpdateStatusMessageInput,
+  ): Promise<StatusMessage> {
+    const { id, ...updateStatusMessageData } = updateStatusMessageInput;
+    return this.db.statusMessage.update({
+      where: { id },
+      data: {
+        ...updateStatusMessageData,
+      },
+    });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} statusMessage`;
+  async remove(id: string): Promise<StatusMessage> {
+    return this.db.statusMessage.delete({
+      where: { id },
+    });
   }
 }
