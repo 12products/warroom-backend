@@ -9,8 +9,14 @@ export class StatusMessagesService {
   async create(
     createStatusMessageInput: CreateStatusMessageInput,
   ): Promise<StatusMessage> {
+    const { incidentId, ...createStatusMessageData } = createStatusMessageInput;
     return this.db.statusMessage.create({
-      data: { ...createStatusMessageInput },
+      data: {
+        ...createStatusMessageData,
+        incident: {
+          connect: { id: incidentId },
+        },
+      },
     });
   }
 
