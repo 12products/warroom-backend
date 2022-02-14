@@ -23,7 +23,7 @@ export class UsersResolver {
 
   @Mutation('updateUser')
   update(@Args('updateUserInput') updateUserInput: UpdateUserInput) {
-    return this.usersService.update(updateUserInput.id, updateUserInput);
+    return this.usersService.update(updateUserInput);
   }
 
   @Mutation('removeUser')

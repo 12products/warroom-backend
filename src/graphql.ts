@@ -114,9 +114,9 @@ export interface UpdateStatusMessageInput {
 
 export interface CreateUserInput {
     firstName: string;
-    lastName?: Nullable<string>;
-    email?: Nullable<string>;
-    role?: Nullable<Role>;
+    lastName: string;
+    email: string;
+    role: Role;
 }
 
 export interface UpdateUserInput {

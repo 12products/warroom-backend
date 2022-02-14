@@ -1,25 +1,44 @@
 import { Injectable } from '@nestjs/common';
 import { CreateUserInput, UpdateUserInput } from '../graphql';
+import { User } from '@prisma/client';
+import { DatabaseService } from '../database/database.service';
 
 @Injectable()
 export class UsersService {
-  create(createUserInput: CreateUserInput) {
-    return 'This action adds a new user';
+  constructor(private readonly db: DatabaseService) {}
+  async create(createUserInput: CreateUserInput): Promise<User> {
+    return this.db.user.create({ data: { ...createUserInput } });
   }
 
-  findAll() {
-    return `This action returns all users`;
+  async findAll(): Promise<User[]> {
+    return await this.db.user.findMany({});
   }
 
-  findOne(id: string) {
-    return `This action returns a #${id} user`;
+  async findOne(id: string): Promise<User> {
+    return this.db.user.findUnique({
+      where: {
+        id,
+      },
+    });
   }
 
-  update(id: string, updateUserInput: UpdateUserInput) {
-    return `This action updates a #${id} user`;
+  async update(updateUserInput: UpdateUserInput): Promise<User> {
+    const { id, ...updateUserData } = updateUserInput;
+    return this.db.user.update({
+      where: {
+        id,
+      },
+      data: {
+        ...updateUserData,
+      },
+    });
   }
 
-  remove(id: string) {
-    return `This action removes a #${id} user`;
+  async remove(id: string): Promise<User> {
+    return this.db.user.delete({
+      where: {
+        id,
+      },
+    });
   }
 }

@@ -16,8 +16,8 @@ model User {
   lastName       String
   email          String
   role           Role          @default(ADMIN)
-  organization   Organization  @relation(fields: [organizationId], references: [id])
-  organizationId String
+  organization   Organization? @relation(fields: [organizationId], references: [id])
+  organizationId String?
   createdAt      DateTime      @default(now())
   updatedAt      DateTime      @updatedAt
   actionItems    ActionItems[]
@@ -35,11 +35,11 @@ model Organization {
 }
 
 model ServiceGroup {
-  id             String        @id @default(uuid())
+  id             String       @id @default(uuid())
   name           String
   services       Service[]
-  organization   Organization? @relation(fields: [organizationId], references: [id])
-  organizationId String?
+  organization   Organization @relation(fields: [organizationId], references: [id])
+  organizationId String
 }
 
 model Service {
