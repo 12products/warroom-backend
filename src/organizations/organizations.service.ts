@@ -15,7 +15,7 @@ export class OrganizationsService {
   }
 
   async findAll(): Promise<Organization[]> {
-    return this.db.organization.findMany({});
+    return this.db.organization.findMany();
   }
 
   async findOne(id: string): Promise<Organization> {

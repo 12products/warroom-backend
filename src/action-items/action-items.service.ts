@@ -23,7 +23,7 @@ export class ActionItemsService {
   }
 
   async findAll(): Promise<ActionItems[]> {
-    return this.db.actionItems.findMany({});
+    return this.db.actionItems.findMany();
   }
 
   async findOne(id: string): Promise<ActionItems> {

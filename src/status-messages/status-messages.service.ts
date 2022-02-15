@@ -21,7 +21,7 @@ export class StatusMessagesService {
   }
 
   async findAll(): Promise<StatusMessage[]> {
-    return this.db.statusMessage.findMany({});
+    return this.db.statusMessage.findMany();
   }
 
   async findOne(id: string): Promise<StatusMessage> {

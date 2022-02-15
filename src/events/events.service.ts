@@ -16,7 +16,7 @@ export class EventsService {
   }
 
   async findAll(): Promise<Event[]> {
-    return this.db.event.findMany({});
+    return this.db.event.findMany();
   }
 
   async findOne(id: string): Promise<Event> {

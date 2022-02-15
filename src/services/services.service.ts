@@ -36,7 +36,7 @@ export class ServicesService {
   }
 
   async findAll(): Promise<Service[]> {
-    return this.db.service.findMany({});
+    return this.db.service.findMany();
   }
 
   async findOne(id: string): Promise<Service> {

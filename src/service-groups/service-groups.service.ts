@@ -27,7 +27,7 @@ export class ServiceGroupsService {
   }
 
   async findAll(): Promise<ServiceGroup[]> {
-    return this.db.serviceGroup.findMany({});
+    return this.db.serviceGroup.findMany();
   }
 
   async findOne(id: string): Promise<ServiceGroup> {

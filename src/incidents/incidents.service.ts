@@ -27,7 +27,7 @@ export class IncidentsService {
   }
 
   async findAll(): Promise<Incident[]> {
-    return this.db.incident.findMany({});
+    return this.db.incident.findMany();
   }
 
   async findOne(id: string): Promise<Incident> {
