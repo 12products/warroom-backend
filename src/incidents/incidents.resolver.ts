@@ -1,15 +1,17 @@
 import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
 import { IncidentsService } from './incidents.service';
-import { CreateIncidentInput } from './dto/create-incident.input';
-import { UpdateIncidentInput } from './dto/update-incident.input';
+import { CreateIncidentInput, UpdateIncidentInput } from '../graphql';
 
 @Resolver('Incident')
 export class IncidentsResolver {
   constructor(private readonly incidentsService: IncidentsService) {}
 
   @Mutation('createIncident')
-  create(@Args('createIncidentInput') createIncidentInput: CreateIncidentInput) {
-    return this.incidentsService.create(createIncidentInput);
+  create(
+    @Args('createIncidentInput') createIncidentInput: CreateIncidentInput,
+    userId: string,
+  ) {
+    return this.incidentsService.create(createIncidentInput, userId);
   }
 
   @Query('incidents')
@@ -18,17 +20,22 @@ export class IncidentsResolver {
   }
 
   @Query('incident')
-  findOne(@Args('id') id: number) {
+  findOne(@Args('id') id: string) {
     return this.incidentsService.findOne(id);
   }
 
   @Mutation('updateIncident')
-  update(@Args('updateIncidentInput') updateIncidentInput: UpdateIncidentInput) {
-    return this.incidentsService.update(updateIncidentInput.id, updateIncidentInput);
+  update(
+    @Args('updateIncidentInput') updateIncidentInput: UpdateIncidentInput,
+  ) {
+    return this.incidentsService.update(
+      updateIncidentInput.id,
+      updateIncidentInput,
+    );
   }
 
   @Mutation('removeIncident')
-  remove(@Args('id') id: number) {
+  remove(@Args('id') id: string) {
     return this.incidentsService.remove(id);
   }
 }

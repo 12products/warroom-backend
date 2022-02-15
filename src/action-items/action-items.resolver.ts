@@ -1,14 +1,15 @@
 import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
 import { ActionItemsService } from './action-items.service';
-import { CreateActionItemInput } from './dto/create-action-item.input';
-import { UpdateActionItemInput } from './dto/update-action-item.input';
+import { CreateActionItemInput, UpdateActionItemInput } from '../graphql';
 
 @Resolver('ActionItem')
 export class ActionItemsResolver {
   constructor(private readonly actionItemsService: ActionItemsService) {}
 
   @Mutation('createActionItem')
-  create(@Args('createActionItemInput') createActionItemInput: CreateActionItemInput) {
+  create(
+    @Args('createActionItemInput') createActionItemInput: CreateActionItemInput,
+  ) {
     return this.actionItemsService.create(createActionItemInput);
   }
 
@@ -18,17 +19,22 @@ export class ActionItemsResolver {
   }
 
   @Query('actionItem')
-  findOne(@Args('id') id: number) {
+  findOne(@Args('id') id: string) {
     return this.actionItemsService.findOne(id);
   }
 
   @Mutation('updateActionItem')
-  update(@Args('updateActionItemInput') updateActionItemInput: UpdateActionItemInput) {
-    return this.actionItemsService.update(updateActionItemInput.id, updateActionItemInput);
+  update(
+    @Args('updateActionItemInput') updateActionItemInput: UpdateActionItemInput,
+  ) {
+    return this.actionItemsService.update(
+      updateActionItemInput.id,
+      updateActionItemInput,
+    );
   }
 
   @Mutation('removeActionItem')
-  remove(@Args('id') id: number) {
+  remove(@Args('id') id: string) {
     return this.actionItemsService.remove(id);
   }
 }

@@ -36,7 +36,6 @@ export interface UpdateActionItemInput {
     id: string;
     text?: Nullable<string>;
     ownerId?: Nullable<string>;
-    incidentId?: Nullable<string>;
 }
 
 export interface CreateEventInput {
@@ -47,19 +46,18 @@ export interface CreateEventInput {
 export interface UpdateEventInput {
     id: string;
     text?: Nullable<string>;
-    incidentId?: Nullable<string>;
 }
 
 export interface CreateIncidentInput {
-    description?: Nullable<string>;
-    incidentStatus?: Nullable<IncidentStatus>;
-    serviceId?: Nullable<string>;
+    description: string;
+    status?: Nullable<IncidentStatus>;
+    serviceId: string;
 }
 
 export interface UpdateIncidentInput {
     id: string;
     description?: Nullable<string>;
-    incidentStatus?: Nullable<IncidentStatus>;
+    status?: Nullable<IncidentStatus>;
     serviceId?: Nullable<string>;
 }
 
@@ -196,10 +194,10 @@ export interface Event {
 
 export interface Incident {
     id: string;
-    description?: Nullable<string>;
+    description: string;
     status?: Nullable<IncidentStatus>;
-    service?: Nullable<Service>;
-    organization?: Nullable<Organization>;
+    service: Service;
+    organization: Organization;
     events?: Nullable<Nullable<Event>[]>;
     statusMessage?: Nullable<Nullable<StatusMessage>[]>;
     actionItems?: Nullable<Nullable<ActionItem>[]>;

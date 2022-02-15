@@ -1,26 +1,50 @@
 import { Injectable } from '@nestjs/common';
-import { CreateIncidentInput } from './dto/create-incident.input';
-import { UpdateIncidentInput } from './dto/update-incident.input';
+import { Incident } from '@prisma/client';
+import { DatabaseService } from '../database/database.service';
+import { CreateIncidentInput, UpdateIncidentInput } from '../graphql';
+import { UsersService } from '../users/users.service';
 
 @Injectable()
 export class IncidentsService {
-  create(createIncidentInput: CreateIncidentInput) {
-    return 'This action adds a new incident';
+  constructor(
+    private readonly db: DatabaseService,
+    private readonly usersService: UsersService,
+  ) {}
+
+  async create(
+    createIncidentInput: CreateIncidentInput,
+    userId: string,
+  ): Promise<Incident> {
+    const { organizationId } = await this.usersService.findOne(userId);
+    const { serviceId, ...createIncidentData } = createIncidentInput;
+    return this.db.incident.create({
+      data: {
+        ...createIncidentData,
+        organization: { connect: { id: organizationId } },
+        service: { connect: { id: serviceId } },
+      },
+    });
   }
 
-  findAll() {
-    return `This action returns all incidents`;
+  async findAll(): Promise<Incident[]> {
+    return this.db.incident.findMany({});
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} incident`;
+  async findOne(id: string): Promise<Incident> {
+    return this.db.incident.findUnique({ where: { id } });
   }
 
-  update(id: number, updateIncidentInput: UpdateIncidentInput) {
-    return `This action updates a #${id} incident`;
+  async update(
+    id: string,
+    updateIncidentInput: UpdateIncidentInput,
+  ): Promise<Incident> {
+    return this.db.incident.update({
+      where: { id },
+      data: { ...updateIncidentInput },
+    });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} incident`;
+  async remove(id: string): Promise<Incident> {
+    return this.db.incident.delete({ where: { id } });
   }
 }
