@@ -11,6 +11,7 @@ export class ActionItemsService {
   ): Promise<ActionItems> {
     const { text, ownerId, incidentId } = createActionItemInput;
     const data = { text };
+
     if (ownerId) {
       data['owner'] = { connect: { id: ownerId } };
     }
