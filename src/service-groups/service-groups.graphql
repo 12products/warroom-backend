@@ -6,12 +6,12 @@ type ServiceGroup {
 }
 
 input CreateServiceGroupInput {
-  name: String
+  name: String!
 }
 
 input UpdateServiceGroupInput {
   id: ID!
-  name: String
+  name: String!
 }
 
 type Query {

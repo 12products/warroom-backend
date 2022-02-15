@@ -73,12 +73,12 @@ export interface UpdateOrganizationInput {
 }
 
 export interface CreateServiceGroupInput {
-    name?: Nullable<string>;
+    name: string;
 }
 
 export interface UpdateServiceGroupInput {
     id: string;
-    name?: Nullable<string>;
+    name: string;
 }
 
 export interface CreateServiceInput {
