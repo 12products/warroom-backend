@@ -1,9 +1,9 @@
 type Incident {
   id: ID!
-  description: String
+  description: String!
   status: IncidentStatus
-  service: Service
-  organization: Organization
+  service: Service!
+  organization: Organization!
   events: [Event]
   statusMessage: [StatusMessage]
   actionItems: [ActionItem]
@@ -19,15 +19,15 @@ enum IncidentStatus {
 }
 
 input CreateIncidentInput {
-  description: String
-  incidentStatus: IncidentStatus
-  serviceId: String
+  description: String!
+  status: IncidentStatus
+  serviceId: String!
 }
 
 input UpdateIncidentInput {
   id: ID!
   description: String
-  incidentStatus: IncidentStatus
+  status: IncidentStatus
   serviceId: String
 }
 

@@ -1,26 +1,50 @@
 import { Injectable } from '@nestjs/common';
-import { CreateServiceGroupInput } from './dto/create-service-group.input';
-import { UpdateServiceGroupInput } from './dto/update-service-group.input';
+import { ServiceGroup } from '@prisma/client';
+import { DatabaseService } from 'src/database/database.service';
+import { UsersService } from 'src/users/users.service';
+import { CreateServiceGroupInput, UpdateServiceGroupInput } from '../graphql';
 
 @Injectable()
 export class ServiceGroupsService {
-  create(createServiceGroupInput: CreateServiceGroupInput) {
-    return 'This action adds a new serviceGroup';
+  constructor(
+    private readonly db: DatabaseService,
+    private readonly usersService: UsersService,
+  ) {}
+
+  async create(
+    createServiceGroupInput: CreateServiceGroupInput,
+    userId: string,
+  ): Promise<ServiceGroup> {
+    const { organizationId } = await this.usersService.findOne(userId);
+    return this.db.serviceGroup.create({
+      data: {
+        ...createServiceGroupInput,
+        organization: {
+          connect: { id: organizationId },
+        },
+      },
+    });
   }
 
-  findAll() {
-    return `This action returns all serviceGroups`;
+  async findAll(): Promise<ServiceGroup[]> {
+    return this.db.serviceGroup.findMany();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} serviceGroup`;
+  async findOne(id: string): Promise<ServiceGroup> {
+    return this.db.serviceGroup.findUnique({ where: { id } });
   }
 
-  update(id: number, updateServiceGroupInput: UpdateServiceGroupInput) {
-    return `This action updates a #${id} serviceGroup`;
+  async update(
+    updateServiceGroupInput: UpdateServiceGroupInput,
+  ): Promise<ServiceGroup> {
+    const { id, ...updateServiceGroupData } = updateServiceGroupInput;
+    return this.db.serviceGroup.update({
+      where: { id },
+      data: { ...updateServiceGroupData },
+    });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} serviceGroup`;
+  async remove(id: string): Promise<ServiceGroup> {
+    return this.db.serviceGroup.delete({ where: { id } });
   }
 }

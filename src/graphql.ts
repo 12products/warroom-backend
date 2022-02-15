@@ -36,7 +36,6 @@ export interface UpdateActionItemInput {
     id: string;
     text?: Nullable<string>;
     ownerId?: Nullable<string>;
-    incidentId?: Nullable<string>;
 }
 
 export interface CreateEventInput {
@@ -47,46 +46,45 @@ export interface CreateEventInput {
 export interface UpdateEventInput {
     id: string;
     text?: Nullable<string>;
-    incidentId?: Nullable<string>;
 }
 
 export interface CreateIncidentInput {
-    description?: Nullable<string>;
-    incidentStatus?: Nullable<IncidentStatus>;
-    serviceId?: Nullable<string>;
+    description: string;
+    status?: Nullable<IncidentStatus>;
+    serviceId: string;
 }
 
 export interface UpdateIncidentInput {
     id: string;
     description?: Nullable<string>;
-    incidentStatus?: Nullable<IncidentStatus>;
+    status?: Nullable<IncidentStatus>;
     serviceId?: Nullable<string>;
 }
 
 export interface CreateOrganizationInput {
-    name?: Nullable<string>;
+    name: string;
 }
 
 export interface UpdateOrganizationInput {
     id: string;
-    name?: Nullable<string>;
+    name: string;
 }
 
 export interface CreateServiceGroupInput {
-    name?: Nullable<string>;
+    name: string;
 }
 
 export interface UpdateServiceGroupInput {
     id: string;
-    name?: Nullable<string>;
+    name: string;
 }
 
 export interface CreateServiceInput {
     name: string;
-    description?: Nullable<string>;
-    status?: Nullable<ServiceStatus>;
+    description: string;
+    status: ServiceStatus;
     link?: Nullable<string>;
-    private?: Nullable<boolean>;
+    private: boolean;
     serviceGroupId?: Nullable<string>;
 }
 
@@ -101,9 +99,9 @@ export interface UpdateServiceInput {
 }
 
 export interface CreateStatusMessageInput {
-    text?: Nullable<string>;
-    incidentId?: Nullable<string>;
-    status?: Nullable<IncidentStatus>;
+    text: string;
+    incidentId: string;
+    status: IncidentStatus;
 }
 
 export interface UpdateStatusMessageInput {
@@ -114,9 +112,9 @@ export interface UpdateStatusMessageInput {
 
 export interface CreateUserInput {
     firstName: string;
-    lastName?: Nullable<string>;
-    email?: Nullable<string>;
-    role?: Nullable<Role>;
+    lastName: string;
+    email: string;
+    role: Role;
 }
 
 export interface UpdateUserInput {
@@ -196,10 +194,10 @@ export interface Event {
 
 export interface Incident {
     id: string;
-    description?: Nullable<string>;
+    description: string;
     status?: Nullable<IncidentStatus>;
-    service?: Nullable<Service>;
-    organization?: Nullable<Organization>;
+    service: Service;
+    organization: Organization;
     events?: Nullable<Nullable<Event>[]>;
     statusMessage?: Nullable<Nullable<StatusMessage>[]>;
     actionItems?: Nullable<Nullable<ActionItem>[]>;
@@ -209,7 +207,7 @@ export interface Incident {
 
 export interface Organization {
     id: string;
-    name?: Nullable<string>;
+    name: string;
     incidents?: Nullable<Nullable<Incident>[]>;
     services?: Nullable<Nullable<Service>[]>;
     users?: Nullable<Nullable<User>[]>;

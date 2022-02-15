@@ -1,14 +1,16 @@
 import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
 import { StatusMessagesService } from './status-messages.service';
-import { CreateStatusMessageInput } from './dto/create-status-message.input';
-import { UpdateStatusMessageInput } from './dto/update-status-message.input';
+import { CreateStatusMessageInput, UpdateStatusMessageInput } from '../graphql';
 
 @Resolver('StatusMessage')
 export class StatusMessagesResolver {
   constructor(private readonly statusMessagesService: StatusMessagesService) {}
 
   @Mutation('createStatusMessage')
-  create(@Args('createStatusMessageInput') createStatusMessageInput: CreateStatusMessageInput) {
+  create(
+    @Args('createStatusMessageInput')
+    createStatusMessageInput: CreateStatusMessageInput,
+  ) {
     return this.statusMessagesService.create(createStatusMessageInput);
   }
 
@@ -18,17 +20,20 @@ export class StatusMessagesResolver {
   }
 
   @Query('statusMessage')
-  findOne(@Args('id') id: number) {
+  findOne(@Args('id') id: string) {
     return this.statusMessagesService.findOne(id);
   }
 
   @Mutation('updateStatusMessage')
-  update(@Args('updateStatusMessageInput') updateStatusMessageInput: UpdateStatusMessageInput) {
-    return this.statusMessagesService.update(updateStatusMessageInput.id, updateStatusMessageInput);
+  update(
+    @Args('updateStatusMessageInput')
+    updateStatusMessageInput: UpdateStatusMessageInput,
+  ) {
+    return this.statusMessagesService.update(updateStatusMessageInput);
   }
 
   @Mutation('removeStatusMessage')
-  remove(@Args('id') id: number) {
+  remove(@Args('id') id: string) {
     return this.statusMessagesService.remove(id);
   }
 }

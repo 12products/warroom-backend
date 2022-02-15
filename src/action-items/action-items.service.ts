@@ -1,26 +1,46 @@
 import { Injectable } from '@nestjs/common';
-import { CreateActionItemInput } from './dto/create-action-item.input';
-import { UpdateActionItemInput } from './dto/update-action-item.input';
+import { ActionItems } from '@prisma/client';
+import { DatabaseService } from 'src/database/database.service';
+import { CreateActionItemInput, UpdateActionItemInput } from '../graphql';
 
 @Injectable()
 export class ActionItemsService {
-  create(createActionItemInput: CreateActionItemInput) {
-    return 'This action adds a new actionItem';
+  constructor(private readonly db: DatabaseService) {}
+  async create(
+    createActionItemInput: CreateActionItemInput,
+  ): Promise<ActionItems> {
+    const { text, ownerId, incidentId } = createActionItemInput;
+    const data = { text };
+
+    if (ownerId) {
+      data['owner'] = { connect: { id: ownerId } };
+    }
+
+    if (incidentId) {
+      data['incident'] = { connect: { id: incidentId } };
+    }
+    return this.db.actionItems.create({ data });
   }
 
-  findAll() {
-    return `This action returns all actionItems`;
+  async findAll(): Promise<ActionItems[]> {
+    return this.db.actionItems.findMany();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} actionItem`;
+  async findOne(id: string): Promise<ActionItems> {
+    return this.db.actionItems.findUnique({ where: { id } });
   }
 
-  update(id: number, updateActionItemInput: UpdateActionItemInput) {
-    return `This action updates a #${id} actionItem`;
+  async update(
+    id: string,
+    updateActionItemInput: UpdateActionItemInput,
+  ): Promise<ActionItems> {
+    return this.db.actionItems.update({
+      where: { id },
+      data: { ...updateActionItemInput },
+    });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} actionItem`;
+  async remove(id: string): Promise<ActionItems> {
+    return this.db.actionItems.delete({ where: { id } });
   }
 }

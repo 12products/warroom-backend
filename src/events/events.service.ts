@@ -1,26 +1,36 @@
 import { Injectable } from '@nestjs/common';
-import { CreateEventInput } from './dto/create-event.input';
-import { UpdateEventInput } from './dto/update-event.input';
+import { Event } from '@prisma/client';
+import { DatabaseService } from 'src/database/database.service';
+import { CreateEventInput, UpdateEventInput } from '../graphql';
 
 @Injectable()
 export class EventsService {
-  create(createEventInput: CreateEventInput) {
-    return 'This action adds a new event';
+  constructor(private readonly db: DatabaseService) {}
+  async create(createEventInput: CreateEventInput): Promise<Event> {
+    const { incidentId, text } = createEventInput;
+    const data = { text };
+    if (incidentId) {
+      data['incident'] = { connect: { id: incidentId } };
+    }
+    return this.db.event.create({ data });
   }
 
-  findAll() {
-    return `This action returns all events`;
+  async findAll(): Promise<Event[]> {
+    return this.db.event.findMany();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} event`;
+  async findOne(id: string): Promise<Event> {
+    return this.db.event.findUnique({ where: { id } });
   }
 
-  update(id: number, updateEventInput: UpdateEventInput) {
-    return `This action updates a #${id} event`;
+  async update(id: string, updateEventInput: UpdateEventInput): Promise<Event> {
+    return this.db.event.update({
+      where: { id },
+      data: { ...updateEventInput },
+    });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} event`;
+  async remove(id: string): Promise<Event> {
+    return this.db.event.delete({ where: { id } });
   }
 }

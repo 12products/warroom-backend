@@ -1,26 +1,57 @@
 import { Injectable } from '@nestjs/common';
-import { CreateServiceInput } from './dto/create-service.input';
-import { UpdateServiceInput } from './dto/update-service.input';
+import { Service } from '@prisma/client';
+import { DatabaseService } from 'src/database/database.service';
+import { UsersService } from 'src/users/users.service';
+import { CreateServiceInput, UpdateServiceInput } from '../graphql';
 
 @Injectable()
 export class ServicesService {
-  create(createServiceInput: CreateServiceInput) {
-    return 'This action adds a new service';
+  constructor(
+    private readonly db: DatabaseService,
+    private readonly usersService: UsersService,
+  ) {}
+  async create(
+    createServiceInput: CreateServiceInput,
+    userId: string,
+  ): Promise<Service> {
+    const { serviceGroupId, ...createServiceData } = createServiceInput;
+    const { organizationId } = await this.usersService.findOne(userId);
+
+    const data = {
+      ...createServiceData,
+      organization: {
+        connect: { id: organizationId },
+      },
+    };
+
+    if (serviceGroupId) {
+      data['serviceGroup'] = {
+        connect: { id: serviceGroupId },
+      };
+    }
+
+    return this.db.service.create({
+      data,
+    });
   }
 
-  findAll() {
-    return `This action returns all services`;
+  async findAll(): Promise<Service[]> {
+    return this.db.service.findMany();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} service`;
+  async findOne(id: string): Promise<Service> {
+    return this.db.service.findUnique({ where: { id } });
   }
 
-  update(id: number, updateServiceInput: UpdateServiceInput) {
-    return `This action updates a #${id} service`;
+  async update(updateServiceInput: UpdateServiceInput): Promise<Service> {
+    const { id, ...updateServiceData } = updateServiceInput;
+    return this.db.service.update({
+      where: { id },
+      data: { ...updateServiceData },
+    });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} service`;
+  async remove(id: string): Promise<Service> {
+    return this.db.service.delete({ where: { id } });
   }
 }

@@ -17,7 +17,6 @@ input UpdateActionItemInput {
   id: ID!
   text: String
   ownerId: String
-  incidentId: String
 }
 
 type Query {
