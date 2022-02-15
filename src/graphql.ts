@@ -64,12 +64,12 @@ export interface UpdateIncidentInput {
 }
 
 export interface CreateOrganizationInput {
-    name?: Nullable<string>;
+    name: string;
 }
 
 export interface UpdateOrganizationInput {
     id: string;
-    name?: Nullable<string>;
+    name: string;
 }
 
 export interface CreateServiceGroupInput {
@@ -209,7 +209,7 @@ export interface Incident {
 
 export interface Organization {
     id: string;
-    name?: Nullable<string>;
+    name: string;
     incidents?: Nullable<Nullable<Incident>[]>;
     services?: Nullable<Nullable<Service>[]>;
     users?: Nullable<Nullable<User>[]>;

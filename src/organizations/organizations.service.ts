@@ -1,26 +1,38 @@
 import { Injectable } from '@nestjs/common';
-import { CreateOrganizationInput } from './dto/create-organization.input';
-import { UpdateOrganizationInput } from './dto/update-organization.input';
+import { Organization } from '@prisma/client';
+import { DatabaseService } from 'src/database/database.service';
+import { UpdateOrganizationInput, CreateOrganizationInput } from '../graphql';
 
 @Injectable()
 export class OrganizationsService {
-  create(createOrganizationInput: CreateOrganizationInput) {
-    return 'This action adds a new organization';
+  constructor(private readonly db: DatabaseService) {}
+  async create(
+    createOrganizationInput: CreateOrganizationInput,
+  ): Promise<Organization> {
+    return this.db.organization.create({
+      data: { ...createOrganizationInput },
+    });
   }
 
-  findAll() {
-    return `This action returns all organizations`;
+  async findAll(): Promise<Organization[]> {
+    return this.db.organization.findMany({});
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} organization`;
+  async findOne(id: string): Promise<Organization> {
+    return this.db.organization.findUnique({ where: { id } });
   }
 
-  update(id: number, updateOrganizationInput: UpdateOrganizationInput) {
-    return `This action updates a #${id} organization`;
+  async update(
+    id: string,
+    updateOrganizationInput: UpdateOrganizationInput,
+  ): Promise<Organization> {
+    return this.db.organization.update({
+      where: { id },
+      data: { ...updateOrganizationInput },
+    });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} organization`;
+  async remove(id: string): Promise<Organization> {
+    return this.db.organization.delete({ where: { id } });
   }
 }

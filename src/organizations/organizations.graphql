@@ -1,6 +1,6 @@
 type Organization {
   id: ID!
-  name: String
+  name: String!
   incidents: [Incident]
   services: [Service]
   users: [User]
@@ -10,12 +10,12 @@ type Organization {
 }
 
 input CreateOrganizationInput {
-  name: String
+  name: String!
 }
 
 input UpdateOrganizationInput {
   id: ID!
-  name: String
+  name: String!
 }
 
 type Query {
