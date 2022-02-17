@@ -13,6 +13,7 @@ import { IncidentsModule } from './incidents/incidents.module';
 import { EventsModule } from './events/events.module';
 import { ActionItemsModule } from './action-items/action-items.module';
 import { StatusMessagesModule } from './status-messages/status-messages.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -35,6 +36,7 @@ import { StatusMessagesModule } from './status-messages/status-messages.module';
     EventsModule,
     ActionItemsModule,
     StatusMessagesModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
