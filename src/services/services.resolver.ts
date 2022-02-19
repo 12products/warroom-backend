@@ -1,6 +1,8 @@
 import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
 import { ServicesService } from './services.service';
 import { CreateServiceInput, UpdateServiceInput } from '../graphql';
+import { CurrentUser } from 'src/auth/current-user.decorator';
+import { AuthUser } from '@supabase/supabase-js';
 
 @Resolver('Service')
 export class ServicesResolver {
@@ -9,9 +11,9 @@ export class ServicesResolver {
   @Mutation('createService')
   create(
     @Args('createServiceInput') createServiceInput: CreateServiceInput,
-    userId: string,
+    @CurrentUser() user: AuthUser,
   ) {
-    return this.servicesService.create(createServiceInput, userId);
+    return this.servicesService.create(createServiceInput, user.id);
   }
 
   @Query('services')

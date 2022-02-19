@@ -28,14 +28,6 @@ export class WarroomAuthGuard extends AuthGuard('supabase') {
       return true;
     }
 
-    console.log(
-      typeof context,
-      context,
-      context.getArgs.name,
-      context.getHandler.name,
-      context.getClass.name,
-    );
-
     return super.canActivate(context);
   }
 }
