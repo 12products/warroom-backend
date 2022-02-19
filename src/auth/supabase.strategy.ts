@@ -1,15 +1,15 @@
+import { Injectable, Inject } from '@nestjs/common';
+import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt } from 'passport-jwt';
 import { SupabaseAuthStrategy } from 'nestjs-supabase-auth';
-import { PassportStrategy } from '@nestjs/passport';
-import { Injectable, Inject } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class SupabaseStrategy extends PassportStrategy(
   SupabaseAuthStrategy,
-  'supabse',
+  'supabase',
 ) {
-  constructor(
+  public constructor(
     @Inject(ConfigService) private readonly configService: ConfigService,
   ) {
     super({
