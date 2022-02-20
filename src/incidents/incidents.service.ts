@@ -17,7 +17,7 @@ export class IncidentsService {
   ): Promise<Incident> {
     const { organizationId } = await this.usersService.findOne(userId);
     const { serviceId, ...createIncidentData } = createIncidentInput;
-    return this.db.incident.create({
+    return await this.db.incident.create({
       data: {
         ...createIncidentData,
         organization: { connect: { id: organizationId } },
@@ -27,24 +27,24 @@ export class IncidentsService {
   }
 
   async findAll(): Promise<Incident[]> {
-    return this.db.incident.findMany();
+    return await this.db.incident.findMany();
   }
 
   async findOne(id: string): Promise<Incident> {
-    return this.db.incident.findUnique({ where: { id } });
+    return await this.db.incident.findUnique({ where: { id } });
   }
 
   async update(
     id: string,
     updateIncidentInput: UpdateIncidentInput,
   ): Promise<Incident> {
-    return this.db.incident.update({
+    return await this.db.incident.update({
       where: { id },
       data: { ...updateIncidentInput },
     });
   }
 
   async remove(id: string): Promise<Incident> {
-    return this.db.incident.delete({ where: { id } });
+    return await this.db.incident.delete({ where: { id } });
   }
 }

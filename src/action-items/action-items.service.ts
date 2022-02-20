@@ -19,28 +19,28 @@ export class ActionItemsService {
     if (incidentId) {
       data['incident'] = { connect: { id: incidentId } };
     }
-    return this.db.actionItems.create({ data });
+    return await this.db.actionItems.create({ data });
   }
 
   async findAll(): Promise<ActionItems[]> {
-    return this.db.actionItems.findMany();
+    return await this.db.actionItems.findMany();
   }
 
   async findOne(id: string): Promise<ActionItems> {
-    return this.db.actionItems.findUnique({ where: { id } });
+    return await this.db.actionItems.findUnique({ where: { id } });
   }
 
   async update(
     id: string,
     updateActionItemInput: UpdateActionItemInput,
   ): Promise<ActionItems> {
-    return this.db.actionItems.update({
+    return await this.db.actionItems.update({
       where: { id },
       data: { ...updateActionItemInput },
     });
   }
 
   async remove(id: string): Promise<ActionItems> {
-    return this.db.actionItems.delete({ where: { id } });
+    return await this.db.actionItems.delete({ where: { id } });
   }
 }

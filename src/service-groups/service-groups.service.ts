@@ -16,7 +16,7 @@ export class ServiceGroupsService {
     userId: string,
   ): Promise<ServiceGroup> {
     const { organizationId } = await this.usersService.findOne(userId);
-    return this.db.serviceGroup.create({
+    return await this.db.serviceGroup.create({
       data: {
         ...createServiceGroupInput,
         organization: {
@@ -27,24 +27,24 @@ export class ServiceGroupsService {
   }
 
   async findAll(): Promise<ServiceGroup[]> {
-    return this.db.serviceGroup.findMany();
+    return await this.db.serviceGroup.findMany();
   }
 
   async findOne(id: string): Promise<ServiceGroup> {
-    return this.db.serviceGroup.findUnique({ where: { id } });
+    return await this.db.serviceGroup.findUnique({ where: { id } });
   }
 
   async update(
     updateServiceGroupInput: UpdateServiceGroupInput,
   ): Promise<ServiceGroup> {
     const { id, ...updateServiceGroupData } = updateServiceGroupInput;
-    return this.db.serviceGroup.update({
+    return await this.db.serviceGroup.update({
       where: { id },
       data: { ...updateServiceGroupData },
     });
   }
 
   async remove(id: string): Promise<ServiceGroup> {
-    return this.db.serviceGroup.delete({ where: { id } });
+    return await this.db.serviceGroup.delete({ where: { id } });
   }
 }

@@ -10,7 +10,7 @@ export class StatusMessagesService {
     createStatusMessageInput: CreateStatusMessageInput,
   ): Promise<StatusMessage> {
     const { incidentId, ...createStatusMessageData } = createStatusMessageInput;
-    return this.db.statusMessage.create({
+    return await this.db.statusMessage.create({
       data: {
         ...createStatusMessageData,
         incident: {
@@ -21,11 +21,11 @@ export class StatusMessagesService {
   }
 
   async findAll(): Promise<StatusMessage[]> {
-    return this.db.statusMessage.findMany();
+    return await this.db.statusMessage.findMany();
   }
 
   async findOne(id: string): Promise<StatusMessage> {
-    return this.db.statusMessage.findUnique({
+    return await this.db.statusMessage.findUnique({
       where: { id },
     });
   }
@@ -34,7 +34,7 @@ export class StatusMessagesService {
     updateStatusMessageInput: UpdateStatusMessageInput,
   ): Promise<StatusMessage> {
     const { id, ...updateStatusMessageData } = updateStatusMessageInput;
-    return this.db.statusMessage.update({
+    return await this.db.statusMessage.update({
       where: { id },
       data: {
         ...updateStatusMessageData,
@@ -43,7 +43,7 @@ export class StatusMessagesService {
   }
 
   async remove(id: string): Promise<StatusMessage> {
-    return this.db.statusMessage.delete({
+    return await this.db.statusMessage.delete({
       where: { id },
     });
   }
