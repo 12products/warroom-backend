@@ -2,7 +2,7 @@ import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
 import { IncidentsService } from './incidents.service';
 import { CreateIncidentInput, UpdateIncidentInput } from '../graphql';
 import { AuthUser } from '@supabase/supabase-js';
-import { CurrentUser } from 'src/auth/current-user.decorator';
+import { CurrentUser } from '../auth/current-user.decorator';
 @Resolver('Incident')
 export class IncidentsResolver {
   constructor(private readonly incidentsService: IncidentsService) {}

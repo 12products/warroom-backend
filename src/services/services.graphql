@@ -21,7 +21,6 @@ enum ServiceStatus {
 input CreateServiceInput {
   name: String!
   description: String!
-  status: ServiceStatus!
   link: String
   private: Boolean!
   serviceGroupId: String

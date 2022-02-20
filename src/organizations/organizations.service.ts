@@ -6,11 +6,13 @@ import { UpdateOrganizationInput, CreateOrganizationInput } from '../graphql';
 @Injectable()
 export class OrganizationsService {
   constructor(private readonly db: DatabaseService) {}
+
   async create(
     createOrganizationInput: CreateOrganizationInput,
+    userId: string,
   ): Promise<Organization> {
     return this.db.organization.create({
-      data: { ...createOrganizationInput },
+      data: { ...createOrganizationInput, users: { connect: { id: userId } } },
     });
   }
 

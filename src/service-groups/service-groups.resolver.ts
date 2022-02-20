@@ -1,7 +1,7 @@
 import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
 import { ServiceGroupsService } from './service-groups.service';
 import { CreateServiceGroupInput, UpdateServiceGroupInput } from '../graphql';
-import { CurrentUser } from 'src/auth/current-user.decorator';
+import { CurrentUser } from '../auth/current-user.decorator';
 import { AuthUser } from '@supabase/supabase-js';
 
 @Resolver('ServiceGroup')

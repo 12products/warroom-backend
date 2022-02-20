@@ -82,7 +82,6 @@ export interface UpdateServiceGroupInput {
 export interface CreateServiceInput {
     name: string;
     description: string;
-    status: ServiceStatus;
     link?: Nullable<string>;
     private: boolean;
     serviceGroupId?: Nullable<string>;
