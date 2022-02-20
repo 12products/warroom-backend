@@ -1,6 +1,8 @@
 import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
 import { ServiceGroupsService } from './service-groups.service';
 import { CreateServiceGroupInput, UpdateServiceGroupInput } from '../graphql';
+import { CurrentUser } from 'src/auth/current-user.decorator';
+import { AuthUser } from '@supabase/supabase-js';
 
 @Resolver('ServiceGroup')
 export class ServiceGroupsResolver {
@@ -10,9 +12,9 @@ export class ServiceGroupsResolver {
   create(
     @Args('createServiceGroupInput')
     createServiceGroupInput: CreateServiceGroupInput,
-    userId: string,
+    @CurrentUser() user: AuthUser,
   ) {
-    return this.serviceGroupsService.create(createServiceGroupInput, userId);
+    return this.serviceGroupsService.create(createServiceGroupInput, user.id);
   }
 
   @Query('serviceGroups')

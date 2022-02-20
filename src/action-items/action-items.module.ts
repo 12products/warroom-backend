@@ -1,10 +1,9 @@
 import { Module } from '@nestjs/common';
 import { ActionItemsService } from './action-items.service';
 import { ActionItemsResolver } from './action-items.resolver';
-import { DatabaseService } from 'src/database/database.service';
-
+import { DatabaseModule } from 'src/database/database.module';
 @Module({
-  imports: [DatabaseService],
+  imports: [DatabaseModule],
   providers: [ActionItemsResolver, ActionItemsService],
 })
 export class ActionItemsModule {}

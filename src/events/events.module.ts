@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
 import { EventsService } from './events.service';
 import { EventsResolver } from './events.resolver';
-import { DatabaseService } from 'src/database/database.service';
+import { DatabaseModule } from 'src/database/database.module';
 
 @Module({
-  imports: [DatabaseService],
+  imports: [DatabaseModule],
   providers: [EventsResolver, EventsService],
 })
 export class EventsModule {}
