@@ -6,8 +6,8 @@ import { DatabaseService } from '../database/database.service';
 @Injectable()
 export class UsersService {
   constructor(private readonly db: DatabaseService) {}
-  async create(createUserInput: CreateUserInput): Promise<User> {
-    return await this.db.user.create({ data: { ...createUserInput } });
+  async create(createUserInput: CreateUserInput, id): Promise<User> {
+    return await this.db.user.create({ data: { ...createUserInput, id } });
   }
 
   async findAll(): Promise<User[]> {
