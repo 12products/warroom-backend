@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { GraphQLModule } from '@nestjs/graphql';
 import { resolvers, typeDefs } from 'graphql-scalars';
-import { join } from 'path/posix';
+import { join } from 'path';
 import { ConfigModule } from '@nestjs/config';
 import { AppController } from './app.controller';
 import { DatabaseModule } from './database/database.module';
