@@ -7,24 +7,31 @@ import { DatabaseService } from '../database/database.service';
 export class UsersService {
   constructor(private readonly db: DatabaseService) {}
   async create(createUserInput: CreateUserInput): Promise<User> {
-    return this.db.user.create({ data: { ...createUserInput } });
+    return await this.db.user.create({ data: { ...createUserInput } });
   }
 
   async findAll(): Promise<User[]> {
-    return await this.db.user.findMany();
+    return await this.db.user.findMany({
+      include: {
+        organization: true,
+      },
+    });
   }
 
   async findOne(id: string): Promise<User> {
-    return this.db.user.findUnique({
+    return await this.db.user.findUnique({
       where: {
         id,
+      },
+      include: {
+        organization: true,
       },
     });
   }
 
   async update(updateUserInput: UpdateUserInput): Promise<User> {
     const { id, ...updateUserData } = updateUserInput;
-    return this.db.user.update({
+    return await this.db.user.update({
       where: {
         id,
       },
@@ -35,7 +42,7 @@ export class UsersService {
   }
 
   async remove(id: string): Promise<User> {
-    return this.db.user.delete({
+    return await this.db.user.delete({
       where: {
         id,
       },

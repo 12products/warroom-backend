@@ -30,28 +30,28 @@ export class ServicesService {
       };
     }
 
-    return this.db.service.create({
+    return await this.db.service.create({
       data,
     });
   }
 
   async findAll(): Promise<Service[]> {
-    return this.db.service.findMany();
+    return await this.db.service.findMany();
   }
 
   async findOne(id: string): Promise<Service> {
-    return this.db.service.findUnique({ where: { id } });
+    return await this.db.service.findUnique({ where: { id } });
   }
 
   async update(updateServiceInput: UpdateServiceInput): Promise<Service> {
     const { id, ...updateServiceData } = updateServiceInput;
-    return this.db.service.update({
+    return await this.db.service.update({
       where: { id },
       data: { ...updateServiceData },
     });
   }
 
   async remove(id: string): Promise<Service> {
-    return this.db.service.delete({ where: { id } });
+    return await this.db.service.delete({ where: { id } });
   }
 }

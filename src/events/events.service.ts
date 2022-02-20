@@ -12,25 +12,25 @@ export class EventsService {
     if (incidentId) {
       data['incident'] = { connect: { id: incidentId } };
     }
-    return this.db.event.create({ data });
+    return await this.db.event.create({ data });
   }
 
   async findAll(): Promise<Event[]> {
-    return this.db.event.findMany();
+    return await this.db.event.findMany();
   }
 
   async findOne(id: string): Promise<Event> {
-    return this.db.event.findUnique({ where: { id } });
+    return await this.db.event.findUnique({ where: { id } });
   }
 
   async update(id: string, updateEventInput: UpdateEventInput): Promise<Event> {
-    return this.db.event.update({
+    return await this.db.event.update({
       where: { id },
       data: { ...updateEventInput },
     });
   }
 
   async remove(id: string): Promise<Event> {
-    return this.db.event.delete({ where: { id } });
+    return await this.db.event.delete({ where: { id } });
   }
 }
