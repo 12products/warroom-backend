@@ -41,7 +41,10 @@ export class ServicesService {
   }
 
   async findOne(id: string): Promise<Service> {
-    return await this.db.service.findUnique({ where: { id } });
+    return await this.db.service.findUnique({
+      where: { id },
+      include: { incident: true },
+    });
   }
 
   async update(updateServiceInput: UpdateServiceInput): Promise<Service> {
