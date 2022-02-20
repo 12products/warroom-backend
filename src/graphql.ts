@@ -14,6 +14,13 @@ export enum IncidentStatus {
     RESOLVED = "RESOLVED"
 }
 
+export enum IncidentSeverity {
+    CRITICAL = "CRITICAL",
+    HIGH = "HIGH",
+    MEDIUM = "MEDIUM",
+    LOW = "LOW"
+}
+
 export enum ServiceStatus {
     OPERATIONAL = "OPERATIONAL",
     PARTIAL_OUTAGE = "PARTIAL_OUTAGE",
@@ -49,6 +56,7 @@ export interface UpdateEventInput {
 }
 
 export interface CreateIncidentInput {
+    title: string;
     description: string;
     status?: Nullable<IncidentStatus>;
     serviceId: string;
@@ -193,6 +201,7 @@ export interface Event {
 
 export interface Incident {
     id: string;
+    title: string;
     description: string;
     status?: Nullable<IncidentStatus>;
     service: Service;
@@ -200,6 +209,8 @@ export interface Incident {
     events?: Nullable<Nullable<Event>[]>;
     statusMessage?: Nullable<Nullable<StatusMessage>[]>;
     actionItems?: Nullable<Nullable<ActionItem>[]>;
+    severity: IncidentSeverity;
+    incidentDate: DateTime;
     createdAt: DateTime;
     updatedAt: DateTime;
 }

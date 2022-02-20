@@ -1,5 +1,6 @@
 type Incident {
   id: ID!
+  title: String!
   description: String!
   status: IncidentStatus
   service: Service!
@@ -7,6 +8,8 @@ type Incident {
   events: [Event]
   statusMessage: [StatusMessage]
   actionItems: [ActionItem]
+  severity: IncidentSeverity!
+  incidentDate: DateTime!
   createdAt: DateTime!
   updatedAt: DateTime!
 }
@@ -18,7 +21,15 @@ enum IncidentStatus {
   RESOLVED
 }
 
+enum IncidentSeverity {
+  CRITICAL
+  HIGH
+  MEDIUM
+  LOW
+}
+
 input CreateIncidentInput {
+  title: String!
   description: String!
   status: IncidentStatus
   serviceId: String!
