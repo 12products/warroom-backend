@@ -21,6 +21,7 @@ model User {
   createdAt      DateTime      @default(now())
   updatedAt      DateTime      @updatedAt
   actionItems    ActionItems[]
+  incident       Incident[]
 }
 
 model Organization {
@@ -59,18 +60,23 @@ model Service {
 }
 
 model Incident {
-  id             String          @id @default(uuid())
+  id             String           @id @default(uuid())
+  title          String
   description    String
-  status         IncidentStatus  @default(INVESTIGATING)
-  service        Service         @relation(fields: [serviceId], references: [id])
+  status         IncidentStatus   @default(INVESTIGATING)
+  service        Service          @relation(fields: [serviceId], references: [id])
   serviceId      String
-  organization   Organization    @relation(fields: [organizationId], references: [id])
+  organization   Organization     @relation(fields: [organizationId], references: [id])
   organizationId String
   statusMessage  StatusMessage[]
   events         Event[]
   actionItems    ActionItems[]
-  createdAt      DateTime        @default(now())
-  updatedAt      DateTime        @updatedAt
+  assignee       User?            @relation(fields: [assigneeId], references: [id])
+  assigneeId     String?
+  severity       IncidentSeverity @default(MEDIUM)
+  incidentDate   DateTime         @default(now())
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
 }
 
 model Event {
@@ -120,4 +126,11 @@ enum IncidentStatus {
   IDENTIFIED
   MONITORING
   RESOLVED
+}
+
+enum IncidentSeverity {
+  CRITICAL
+  HIGH
+  MEDIUM
+  LOW
 }
