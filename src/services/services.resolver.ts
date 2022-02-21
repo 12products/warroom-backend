@@ -1,9 +1,8 @@
 import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
 
 import { ServicesService } from './services.service';
-import { CreateServiceInput, UpdateServiceInput } from '../graphql';
+import { CreateServiceInput, UpdateServiceInput, User } from '../graphql';
 import { CurrentUser } from '../auth/current-user.decorator';
-import { AuthUser } from '@supabase/supabase-js';
 
 @Resolver('Service')
 export class ServicesResolver {
@@ -12,28 +11,31 @@ export class ServicesResolver {
   @Mutation('createService')
   create(
     @Args('createServiceInput') createServiceInput: CreateServiceInput,
-    @CurrentUser() user: AuthUser,
+    @CurrentUser() user: Partial<User>,
   ) {
     return this.servicesService.create(createServiceInput, user.id);
   }
 
   @Query('services')
-  findAll() {
-    return this.servicesService.findAll();
+  findAll(@CurrentUser() user: Partial<User>) {
+    return this.servicesService.findAll(user);
   }
 
   @Query('service')
-  findOne(@Args('id') id: string) {
-    return this.servicesService.findOne(id);
+  findOne(@Args('id') id: string, @CurrentUser() user: Partial<User>) {
+    return this.servicesService.findOne(id, user);
   }
 
   @Mutation('updateService')
-  update(@Args('updateServiceInput') updateServiceInput: UpdateServiceInput) {
-    return this.servicesService.update(updateServiceInput);
+  update(
+    @Args('updateServiceInput') updateServiceInput: UpdateServiceInput,
+    @CurrentUser() user: Partial<User>,
+  ) {
+    return this.servicesService.update(updateServiceInput, user);
   }
 
   @Mutation('removeService')
-  remove(@Args('id') id: string) {
-    return this.servicesService.remove(id);
+  remove(@Args('id') id: string, @CurrentUser() user: Partial<User>) {
+    return this.servicesService.remove(id, user);
   }
 }

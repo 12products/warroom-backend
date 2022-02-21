@@ -1,8 +1,9 @@
 import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
+
 import { IncidentsService } from './incidents.service';
-import { CreateIncidentInput, UpdateIncidentInput } from '../graphql';
-import { AuthUser } from '@supabase/supabase-js';
+import { CreateIncidentInput, UpdateIncidentInput, User } from '../graphql';
 import { CurrentUser } from '../auth/current-user.decorator';
+
 @Resolver('Incident')
 export class IncidentsResolver {
   constructor(private readonly incidentsService: IncidentsService) {}
@@ -10,7 +11,7 @@ export class IncidentsResolver {
   @Mutation('createIncident')
   create(
     @Args('createIncidentInput') createIncidentInput: CreateIncidentInput,
-    @CurrentUser() user: AuthUser,
+    @CurrentUser() user: Partial<User>,
   ) {
     return this.incidentsService.create(createIncidentInput, user.id);
   }

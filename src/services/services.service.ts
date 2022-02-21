@@ -1,9 +1,9 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 
 import { Service } from '@prisma/client';
 import { DatabaseService } from 'src/database/database.service';
 import { UsersService } from 'src/users/users.service';
-import { CreateServiceInput, UpdateServiceInput } from '../graphql';
+import { CreateServiceInput, UpdateServiceInput, User } from '../graphql';
 
 @Injectable()
 export class ServicesService {
@@ -36,26 +36,53 @@ export class ServicesService {
     });
   }
 
-  async findAll(): Promise<Service[]> {
-    return await this.db.service.findMany();
+  async permissionGuard(id: string, user: Partial<User>) {
+    const service = await this.db.service.findUnique({
+      where: { id },
+      include: { incident: true, organization: true },
+    });
+
+    if (service.organization.id !== user.organization.id) {
+      throw new UnauthorizedException();
+    }
   }
 
-  async findOne(id: string): Promise<Service> {
-    return await this.db.service.findUnique({
-      where: { id },
-      include: { incident: true },
+  async findAll(user: Partial<User>): Promise<Service[]> {
+    return await this.db.service.findMany({
+      where: { organization: { id: user.organization.id } },
     });
   }
 
-  async update(updateServiceInput: UpdateServiceInput): Promise<Service> {
+  async findOne(id: string, user: Partial<User>): Promise<Service> {
+    const service = await this.db.service.findUnique({
+      where: { id },
+      include: { incident: true, organization: true },
+    });
+
+    if (service.organization.id !== user.organization.id) {
+      return null;
+    }
+
+    return service;
+  }
+
+  async update(
+    updateServiceInput: UpdateServiceInput,
+    user: Partial<User>,
+  ): Promise<Service> {
     const { id, ...updateServiceData } = updateServiceInput;
+
+    this.permissionGuard(id, user);
+
     return await this.db.service.update({
       where: { id },
       data: { ...updateServiceData },
     });
   }
 
-  async remove(id: string): Promise<Service> {
+  async remove(id: string, user: Partial<User>): Promise<Service> {
+    this.permissionGuard(id, user);
+
     return await this.db.service.delete({ where: { id } });
   }
 }
