@@ -118,10 +118,10 @@ export interface UpdateStatusMessageInput {
 }
 
 export interface CreateUserInput {
+    id: string;
     firstName: string;
     lastName: string;
     email: string;
-    role: Role;
 }
 
 export interface UpdateUserInput {

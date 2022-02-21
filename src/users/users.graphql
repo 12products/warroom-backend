@@ -11,10 +11,10 @@ type User {
 }
 
 input CreateUserInput {
+  id: ID!
   firstName: String!
   lastName: String!
   email: String!
-  role: Role!
 }
 
 input UpdateUserInput {
