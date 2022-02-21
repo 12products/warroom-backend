@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { ActionItems } from '@prisma/client';
-import { DatabaseService } from 'src/database/database.service';
+import { DatabaseService } from '../database/database.service';
 import { CreateActionItemInput, UpdateActionItemInput } from '../graphql';
 
 @Injectable()

@@ -1,8 +1,9 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 
 import { Service } from '@prisma/client';
-import { DatabaseService } from 'src/database/database.service';
-import { UsersService } from 'src/users/users.service';
+import { permissionGuard } from '../auth/permission.guard';
+import { DatabaseService } from '../database/database.service';
+import { UsersService } from '../users/users.service';
 import { CreateServiceInput, UpdateServiceInput, User } from '../graphql';
 
 @Injectable()
@@ -36,17 +37,6 @@ export class ServicesService {
     });
   }
 
-  async permissionGuard(id: string, user: User) {
-    const service = await this.db.service.findUnique({
-      where: { id },
-      include: { organization: true },
-    });
-
-    if (service.organization.id !== user.organization.id) {
-      throw new UnauthorizedException();
-    }
-  }
-
   async findAll(user: User): Promise<Service[]> {
     return await this.db.service.findMany({
       where: { organization: { id: user.organization.id } },
@@ -72,7 +62,7 @@ export class ServicesService {
   ): Promise<Service> {
     const { id, ...updateServiceData } = updateServiceInput;
 
-    this.permissionGuard(id, user);
+    permissionGuard(this.db.service, id, user);
 
     return await this.db.service.update({
       where: { id },
@@ -81,8 +71,7 @@ export class ServicesService {
   }
 
   async remove(id: string, user: User): Promise<Service> {
-    this.permissionGuard(id, user);
-
+    permissionGuard(this.db.service, id, user);
     return await this.db.service.delete({ where: { id } });
   }
 }

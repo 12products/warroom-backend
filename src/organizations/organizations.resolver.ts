@@ -21,29 +21,21 @@ export class OrganizationsResolver {
     return this.organizationsService.create(createOrganizationInput, user.id);
   }
 
-  @Query('organizations')
-  findAll() {
-    return this.organizationsService.findAll();
-  }
-
-  @Query('organization')
-  findOne(@Args('id') id: string) {
-    return this.organizationsService.findOne(id);
-  }
-
   @Mutation('updateOrganization')
   update(
     @Args('updateOrganizationInput')
     updateOrganizationInput: UpdateOrganizationInput,
+    @CurrentUser() user: User,
   ) {
     return this.organizationsService.update(
       updateOrganizationInput.id,
       updateOrganizationInput,
+      user,
     );
   }
 
   @Mutation('removeOrganization')
-  remove(@Args('id') id: string) {
-    return this.organizationsService.remove(id);
+  remove(@Args('id') id: string, @CurrentUser() user: User) {
+    return this.organizationsService.remove(id, user);
   }
 }

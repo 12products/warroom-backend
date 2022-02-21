@@ -1,7 +1,13 @@
 import { Injectable } from '@nestjs/common';
+
 import { Organization } from '@prisma/client';
-import { DatabaseService } from 'src/database/database.service';
-import { UpdateOrganizationInput, CreateOrganizationInput } from '../graphql';
+import { permissionGuard } from '../auth/permission.guard';
+import { DatabaseService } from '../database/database.service';
+import {
+  UpdateOrganizationInput,
+  CreateOrganizationInput,
+  User,
+} from '../graphql';
 
 @Injectable()
 export class OrganizationsService {
@@ -16,25 +22,22 @@ export class OrganizationsService {
     });
   }
 
-  async findAll(): Promise<Organization[]> {
-    return await this.db.organization.findMany();
-  }
-
-  async findOne(id: string): Promise<Organization> {
-    return await this.db.organization.findUnique({ where: { id } });
-  }
-
   async update(
     id: string,
     updateOrganizationInput: UpdateOrganizationInput,
+    user: User,
   ): Promise<Organization> {
+    permissionGuard(this.db.organization, id, user);
+
     return await this.db.organization.update({
       where: { id },
       data: { ...updateOrganizationInput },
     });
   }
 
-  async remove(id: string): Promise<Organization> {
+  async remove(id: string, user: User): Promise<Organization> {
+    permissionGuard(this.db.organization, id, user);
+
     return await this.db.organization.delete({ where: { id } });
   }
 }
