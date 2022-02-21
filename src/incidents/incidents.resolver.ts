@@ -13,31 +13,33 @@ export class IncidentsResolver {
     @Args('createIncidentInput') createIncidentInput: CreateIncidentInput,
     @CurrentUser() user: User,
   ) {
-    return this.incidentsService.create(createIncidentInput, user.id);
+    return this.incidentsService.create(createIncidentInput, user);
   }
 
   @Query('incidents')
-  findAll() {
-    return this.incidentsService.findAll();
+  findAll(@CurrentUser() user: User) {
+    return this.incidentsService.findAll(user);
   }
 
   @Query('incident')
-  findOne(@Args('id') id: string) {
-    return this.incidentsService.findOne(id);
+  findOne(@Args('id') id: string, @CurrentUser() user: User) {
+    return this.incidentsService.findOne(id, user);
   }
 
   @Mutation('updateIncident')
   update(
     @Args('updateIncidentInput') updateIncidentInput: UpdateIncidentInput,
+    @CurrentUser() user: User,
   ) {
     return this.incidentsService.update(
       updateIncidentInput.id,
       updateIncidentInput,
+      user,
     );
   }
 
   @Mutation('removeIncident')
-  remove(@Args('id') id: string) {
-    return this.incidentsService.remove(id);
+  remove(@Args('id') id: string, @CurrentUser() user: User) {
+    return this.incidentsService.remove(id, user);
   }
 }

@@ -1,7 +1,8 @@
 import { Injectable } from '@nestjs/common';
+
 import { ServiceGroup } from '@prisma/client';
-import { DatabaseService } from 'src/database/database.service';
-import { UsersService } from 'src/users/users.service';
+import { DatabaseService } from '../database/database.service';
+import { UsersService } from '../users/users.service';
 import { CreateServiceGroupInput, UpdateServiceGroupInput } from '../graphql';
 
 @Injectable()

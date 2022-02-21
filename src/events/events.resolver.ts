@@ -1,4 +1,4 @@
-import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
+import { Resolver, Mutation, Args } from '@nestjs/graphql';
 import { EventsService } from './events.service';
 import { CreateEventInput, UpdateEventInput } from '../graphql';
 
@@ -9,16 +9,6 @@ export class EventsResolver {
   @Mutation('createEvent')
   create(@Args('createEventInput') createEventInput: CreateEventInput) {
     return this.eventsService.create(createEventInput);
-  }
-
-  @Query('events')
-  findAll() {
-    return this.eventsService.findAll();
-  }
-
-  @Query('event')
-  findOne(@Args('id') id: string) {
-    return this.eventsService.findOne(id);
   }
 
   @Mutation('updateEvent')

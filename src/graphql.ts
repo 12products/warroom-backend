@@ -146,8 +146,6 @@ export interface IQuery {
     actionItem(id: string): Nullable<ActionItem> | Promise<Nullable<ActionItem>>;
     actionItemsByUserID(userId: string): Nullable<Nullable<ActionItem>[]> | Promise<Nullable<Nullable<ActionItem>[]>>;
     actionItemsByIncidentID(incidentId: string): Nullable<Nullable<ActionItem>[]> | Promise<Nullable<Nullable<ActionItem>[]>>;
-    events(): Nullable<Event>[] | Promise<Nullable<Event>[]>;
-    event(id: string): Nullable<Event> | Promise<Nullable<Event>>;
     eventsByIncidentId(incidentId: string): Nullable<Nullable<Event>[]> | Promise<Nullable<Nullable<Event>[]>>;
     incidents(): Nullable<Incident>[] | Promise<Nullable<Incident>[]>;
     incident(id: string): Nullable<Incident> | Promise<Nullable<Incident>>;

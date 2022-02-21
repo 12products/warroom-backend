@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { Event } from '@prisma/client';
-import { DatabaseService } from 'src/database/database.service';
+import { DatabaseService } from '../database/database.service';
 import { CreateEventInput, UpdateEventInput } from '../graphql';
 
 @Injectable()
@@ -13,14 +13,6 @@ export class EventsService {
       data['incident'] = { connect: { id: incidentId } };
     }
     return await this.db.event.create({ data });
-  }
-
-  async findAll(): Promise<Event[]> {
-    return await this.db.event.findMany();
-  }
-
-  async findOne(id: string): Promise<Event> {
-    return await this.db.event.findUnique({ where: { id } });
   }
 
   async update(id: string, updateEventInput: UpdateEventInput): Promise<Event> {
