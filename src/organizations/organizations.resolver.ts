@@ -1,8 +1,12 @@
 import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
+
 import { OrganizationsService } from './organizations.service';
-import { CreateOrganizationInput, UpdateOrganizationInput } from '../graphql';
+import {
+  CreateOrganizationInput,
+  UpdateOrganizationInput,
+  User,
+} from '../graphql';
 import { CurrentUser } from '../auth/current-user.decorator';
-import { AuthUser } from '@supabase/supabase-js';
 
 @Resolver('Organization')
 export class OrganizationsResolver {
@@ -12,7 +16,7 @@ export class OrganizationsResolver {
   create(
     @Args('createOrganizationInput')
     createOrganizationInput: CreateOrganizationInput,
-    @CurrentUser() user: AuthUser,
+    @CurrentUser() user: User,
   ) {
     return this.organizationsService.create(createOrganizationInput, user.id);
   }
