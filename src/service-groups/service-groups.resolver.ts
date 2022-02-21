@@ -16,7 +16,7 @@ export class ServiceGroupsResolver {
   create(
     @Args('createServiceGroupInput')
     createServiceGroupInput: CreateServiceGroupInput,
-    @CurrentUser() user: Partial<User>,
+    @CurrentUser() user: User,
   ) {
     return this.serviceGroupsService.create(createServiceGroupInput, user.id);
   }

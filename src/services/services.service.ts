@@ -36,7 +36,7 @@ export class ServicesService {
     });
   }
 
-  async permissionGuard(id: string, user: Partial<User>) {
+  async permissionGuard(id: string, user: User) {
     const service = await this.db.service.findUnique({
       where: { id },
       include: { organization: true },
@@ -47,13 +47,13 @@ export class ServicesService {
     }
   }
 
-  async findAll(user: Partial<User>): Promise<Service[]> {
+  async findAll(user: User): Promise<Service[]> {
     return await this.db.service.findMany({
       where: { organization: { id: user.organization.id } },
     });
   }
 
-  async findOne(id: string, user: Partial<User>): Promise<Service> {
+  async findOne(id: string, user: User): Promise<Service> {
     const service = await this.db.service.findUnique({
       where: { id },
       include: { incident: true, organization: true },
@@ -68,7 +68,7 @@ export class ServicesService {
 
   async update(
     updateServiceInput: UpdateServiceInput,
-    user: Partial<User>,
+    user: User,
   ): Promise<Service> {
     const { id, ...updateServiceData } = updateServiceInput;
 
@@ -80,7 +80,7 @@ export class ServicesService {
     });
   }
 
-  async remove(id: string, user: Partial<User>): Promise<Service> {
+  async remove(id: string, user: User): Promise<Service> {
     this.permissionGuard(id, user);
 
     return await this.db.service.delete({ where: { id } });

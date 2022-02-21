@@ -11,7 +11,7 @@ export class IncidentsResolver {
   @Mutation('createIncident')
   create(
     @Args('createIncidentInput') createIncidentInput: CreateIncidentInput,
-    @CurrentUser() user: Partial<User>,
+    @CurrentUser() user: User,
   ) {
     return this.incidentsService.create(createIncidentInput, user.id);
   }

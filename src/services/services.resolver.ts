@@ -11,31 +11,31 @@ export class ServicesResolver {
   @Mutation('createService')
   create(
     @Args('createServiceInput') createServiceInput: CreateServiceInput,
-    @CurrentUser() user: Partial<User>,
+    @CurrentUser() user: User,
   ) {
     return this.servicesService.create(createServiceInput, user.id);
   }
 
   @Query('services')
-  findAll(@CurrentUser() user: Partial<User>) {
+  findAll(@CurrentUser() user: User) {
     return this.servicesService.findAll(user);
   }
 
   @Query('service')
-  findOne(@Args('id') id: string, @CurrentUser() user: Partial<User>) {
+  findOne(@Args('id') id: string, @CurrentUser() user: User) {
     return this.servicesService.findOne(id, user);
   }
 
   @Mutation('updateService')
   update(
     @Args('updateServiceInput') updateServiceInput: UpdateServiceInput,
-    @CurrentUser() user: Partial<User>,
+    @CurrentUser() user: User,
   ) {
     return this.servicesService.update(updateServiceInput, user);
   }
 
   @Mutation('removeService')
-  remove(@Args('id') id: string, @CurrentUser() user: Partial<User>) {
+  remove(@Args('id') id: string, @CurrentUser() user: User) {
     return this.servicesService.remove(id, user);
   }
 }

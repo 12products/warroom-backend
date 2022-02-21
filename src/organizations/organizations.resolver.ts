@@ -16,7 +16,7 @@ export class OrganizationsResolver {
   create(
     @Args('createOrganizationInput')
     createOrganizationInput: CreateOrganizationInput,
-    @CurrentUser() user: Partial<User>,
+    @CurrentUser() user: User,
   ) {
     return this.organizationsService.create(createOrganizationInput, user.id);
   }
