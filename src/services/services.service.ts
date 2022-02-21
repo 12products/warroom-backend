@@ -39,7 +39,7 @@ export class ServicesService {
   async permissionGuard(id: string, user: Partial<User>) {
     const service = await this.db.service.findUnique({
       where: { id },
-      include: { incident: true, organization: true },
+      include: { organization: true },
     });
 
     if (service.organization.id !== user.organization.id) {
@@ -60,7 +60,7 @@ export class ServicesService {
     });
 
     if (service.organization.id !== user.organization.id) {
-      return null;
+      throw new UnauthorizedException();
     }
 
     return service;
