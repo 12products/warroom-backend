@@ -59,13 +59,18 @@ export interface CreateIncidentInput {
     title: string;
     description: string;
     status?: Nullable<IncidentStatus>;
+    severity?: Nullable<IncidentSeverity>;
     serviceId: string;
+    assigneeId?: Nullable<string>;
+    incidentDate: DateTime;
 }
 
 export interface UpdateIncidentInput {
     id: string;
     description?: Nullable<string>;
     status?: Nullable<IncidentStatus>;
+    severity?: Nullable<IncidentSeverity>;
+    assigneeId?: Nullable<string>;
     serviceId?: Nullable<string>;
     roomURL?: Nullable<string>;
 }
@@ -203,6 +208,7 @@ export interface Incident {
     id: string;
     title: string;
     description: string;
+    assignee?: Nullable<User>;
     status?: Nullable<IncidentStatus>;
     service: Service;
     organization: Organization;

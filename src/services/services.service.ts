@@ -1,10 +1,10 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 
-import { Service } from '@prisma/client';
+import { Service, User } from '@prisma/client';
 import { permissionGuard } from '../auth/permission.guard';
 import { DatabaseService } from '../database/database.service';
 import { UsersService } from '../users/users.service';
-import { CreateServiceInput, UpdateServiceInput, User } from '../graphql';
+import { CreateServiceInput, UpdateServiceInput } from '../graphql';
 
 @Injectable()
 export class ServicesService {
@@ -14,15 +14,14 @@ export class ServicesService {
   ) {}
   async create(
     createServiceInput: CreateServiceInput,
-    userId: string,
+    user: User,
   ): Promise<Service> {
     const { serviceGroupId, ...createServiceData } = createServiceInput;
-    const { organizationId } = await this.usersService.findOne(userId);
 
     const data = {
       ...createServiceData,
       organization: {
-        connect: { id: organizationId },
+        connect: { id: user.organizationId },
       },
     };
 
@@ -39,7 +38,7 @@ export class ServicesService {
 
   async findAll(user: User): Promise<Service[]> {
     return await this.db.service.findMany({
-      where: { organization: { id: user.organization.id } },
+      where: { organization: { id: user.organizationId } },
     });
   }
 
@@ -49,7 +48,7 @@ export class ServicesService {
       include: { incident: true, organization: true },
     });
 
-    if (service.organization.id !== user.organization.id) {
+    if (service.organization.id !== user.organizationId) {
       throw new UnauthorizedException();
     }
 

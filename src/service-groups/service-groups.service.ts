@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 
-import { ServiceGroup } from '@prisma/client';
+import { ServiceGroup, User } from '@prisma/client';
 import { DatabaseService } from '../database/database.service';
 import { UsersService } from '../users/users.service';
 import { CreateServiceGroupInput, UpdateServiceGroupInput } from '../graphql';
@@ -14,14 +14,13 @@ export class ServiceGroupsService {
 
   async create(
     createServiceGroupInput: CreateServiceGroupInput,
-    userId: string,
+    user: User,
   ): Promise<ServiceGroup> {
-    const { organizationId } = await this.usersService.findOne(userId);
     return await this.db.serviceGroup.create({
       data: {
         ...createServiceGroupInput,
         organization: {
-          connect: { id: organizationId },
+          connect: { id: user.organizationId },
         },
       },
     });

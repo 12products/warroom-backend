@@ -2,6 +2,7 @@ type Incident {
   id: ID!
   title: String!
   description: String!
+  assignee: User
   status: IncidentStatus
   service: Service!
   organization: Organization!
@@ -33,13 +34,18 @@ input CreateIncidentInput {
   title: String!
   description: String!
   status: IncidentStatus
+  severity: IncidentSeverity
   serviceId: String!
+  assigneeId: String
+  incidentDate: DateTime!
 }
 
 input UpdateIncidentInput {
   id: ID!
   description: String
   status: IncidentStatus
+  severity: IncidentSeverity
+  assigneeId: String
   serviceId: String
   roomURL: String
 }

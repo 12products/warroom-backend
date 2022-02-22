@@ -10,8 +10,13 @@ export class UsersService {
     return await this.db.user.create({ data: { ...createUserInput, id } });
   }
 
-  async findAll(): Promise<User[]> {
+  async findAll(user: User): Promise<User[]> {
     return await this.db.user.findMany({
+      where: {
+        organization: {
+          id: user.organizationId,
+        },
+      },
       include: {
         organization: true,
       },

@@ -1,12 +1,12 @@
 import { HttpService } from '@nestjs/axios';
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { map, lastValueFrom } from 'rxjs';
 
-import { Incident } from '@prisma/client';
+import { Incident, User } from '@prisma/client';
 import { permissionGuard } from '../auth/permission.guard';
 import { DatabaseService } from '../database/database.service';
-import { CreateIncidentInput, UpdateIncidentInput, User } from '../graphql';
+import { CreateIncidentInput, UpdateIncidentInput } from '../graphql';
 
 @Injectable()
 export class IncidentsService {
@@ -20,25 +20,44 @@ export class IncidentsService {
     createIncidentInput: CreateIncidentInput,
     user: User,
   ): Promise<Incident> {
-    const { serviceId, ...createIncidentData } = createIncidentInput;
+    const { serviceId, assigneeId, ...createIncidentData } =
+      createIncidentInput;
 
-    return await this.db.incident.create({
-      data: {
-        ...createIncidentData,
-        organization: { connect: { id: user.organization.id } },
-        service: { connect: { id: serviceId } },
-      },
-    });
+    const data = {
+      ...createIncidentData,
+      organization: { connect: { id: user.organizationId } },
+      service: { connect: { id: serviceId } },
+    };
+
+    if (assigneeId) {
+      data['assignee'] = { connect: { id: assigneeId } };
+    }
+
+    return await this.db.incident.create({ data });
   }
 
   async findAll(user: User): Promise<Incident[]> {
     return await this.db.incident.findMany({
-      where: { organization: { id: user.organization.id } },
+      where: { organization: { id: user.organizationId } },
     });
   }
 
   async findOne(id: string, user: User): Promise<Incident> {
-    return await permissionGuard(this.db.incident, id, user);
+    const incident = await this.db.incident.findUnique({
+      where: { id },
+      include: {
+        statusMessage: true,
+        assignee: true,
+        actionItems: true,
+        events: true,
+      },
+    });
+
+    if (incident.organizationId !== user.organizationId) {
+      throw new UnauthorizedException();
+    }
+
+    return incident;
   }
 
   async findRoomURL(id: string, user: User): Promise<Incident> {
@@ -61,7 +80,7 @@ export class IncidentsService {
         roomURL = url;
 
         // Save the URL to the database
-        await this.update(id, { id, roomURL }, user);
+        await this.update({ id, roomURL }, user);
       } catch (e) {
         console.error(`Failed to create room for incident (${id}): ${e}`);
       }
@@ -71,15 +90,24 @@ export class IncidentsService {
   }
 
   async update(
-    id: string,
     updateIncidentInput: UpdateIncidentInput,
     user: User,
   ): Promise<Incident> {
-    await permissionGuard(this.db.incident, id, user);
-    return await this.db.incident.update({
+    const { assigneeId, id, ...updateIncidentData } = updateIncidentInput;
+    permissionGuard(this.db.incident, id, user);
+
+    const updateParams = {
       where: { id },
-      data: { ...updateIncidentInput },
-    });
+      data: {
+        ...updateIncidentData,
+      },
+    };
+
+    if (assigneeId) {
+      updateParams.data['assignee'] = { connect: { id: assigneeId } };
+    }
+
+    return await this.db.incident.update(updateParams);
   }
 
   async remove(id: string, user: User): Promise<Incident> {

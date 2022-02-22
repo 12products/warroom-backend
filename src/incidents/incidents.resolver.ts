@@ -1,7 +1,8 @@
 import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
 
 import { IncidentsService } from './incidents.service';
-import { CreateIncidentInput, UpdateIncidentInput, User } from '../graphql';
+import { CreateIncidentInput, UpdateIncidentInput } from '../graphql';
+import { User } from '@prisma/client';
 import { CurrentUser } from '../auth/current-user.decorator';
 
 @Resolver('Incident')
@@ -36,11 +37,7 @@ export class IncidentsResolver {
     @Args('updateIncidentInput') updateIncidentInput: UpdateIncidentInput,
     @CurrentUser() user: User,
   ) {
-    return this.incidentsService.update(
-      updateIncidentInput.id,
-      updateIncidentInput,
-      user,
-    );
+    return this.incidentsService.update(updateIncidentInput, user);
   }
 
   @Mutation('removeIncident')
