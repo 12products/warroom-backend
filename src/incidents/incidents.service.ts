@@ -67,13 +67,21 @@ export class IncidentsService {
     if (!roomURL) {
       try {
         const dailyRequest = await this.httpService
-          .post('https://api.daily.co/v1/rooms/', null, {
-            headers: {
-              Authorization: `Bearer ${this.configService.get<string>(
-                'DAILY_KEY',
-              )}`,
+          .post(
+            'https://api.daily.co/v1/rooms/',
+            {
+              properties: {
+                enable_chat: true,
+              },
             },
-          })
+            {
+              headers: {
+                Authorization: `Bearer ${this.configService.get<string>(
+                  'DAILY_KEY',
+                )}`,
+              },
+            },
+          )
           .pipe(map(({ data }) => data));
         const { url } = await lastValueFrom(dailyRequest);
 
