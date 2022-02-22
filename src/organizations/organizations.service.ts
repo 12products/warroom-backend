@@ -1,13 +1,9 @@
 import { Injectable } from '@nestjs/common';
 
-import { Organization } from '@prisma/client';
+import { Organization, User } from '@prisma/client';
 import { permissionGuard } from '../auth/permission.guard';
 import { DatabaseService } from '../database/database.service';
-import {
-  UpdateOrganizationInput,
-  CreateOrganizationInput,
-  User,
-} from '../graphql';
+import { UpdateOrganizationInput, CreateOrganizationInput } from '../graphql';
 
 @Injectable()
 export class OrganizationsService {

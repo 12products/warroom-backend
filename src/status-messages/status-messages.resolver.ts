@@ -1,12 +1,9 @@
 import { Resolver, Mutation, Args } from '@nestjs/graphql';
 
 import { StatusMessagesService } from './status-messages.service';
-import {
-  CreateStatusMessageInput,
-  UpdateStatusMessageInput,
-  User,
-} from '../graphql';
+import { CreateStatusMessageInput, UpdateStatusMessageInput } from '../graphql';
 import { CurrentUser } from '../auth/current-user.decorator';
+import { User } from '@prisma/client';
 
 @Resolver('StatusMessage')
 export class StatusMessagesResolver {

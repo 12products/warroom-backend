@@ -1,12 +1,8 @@
 import { Injectable } from '@nestjs/common';
 
-import { StatusMessage } from '@prisma/client';
+import { StatusMessage, User } from '@prisma/client';
 import { DatabaseService } from '../database/database.service';
-import {
-  CreateStatusMessageInput,
-  UpdateStatusMessageInput,
-  User,
-} from '../graphql';
+import { CreateStatusMessageInput, UpdateStatusMessageInput } from '../graphql';
 import { permissionGuard } from '../auth/permission.guard';
 
 @Injectable()

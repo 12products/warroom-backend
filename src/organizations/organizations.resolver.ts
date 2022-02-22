@@ -1,11 +1,9 @@
 import { Resolver, Mutation, Args } from '@nestjs/graphql';
 
 import { OrganizationsService } from './organizations.service';
-import {
-  CreateOrganizationInput,
-  UpdateOrganizationInput,
-  User,
-} from '../graphql';
+import { CreateOrganizationInput, UpdateOrganizationInput } from '../graphql';
+
+import { User } from '@prisma/client';
 import { CurrentUser } from '../auth/current-user.decorator';
 
 @Resolver('Organization')
