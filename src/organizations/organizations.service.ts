@@ -27,8 +27,7 @@ export class OrganizationsService {
     updateOrganizationInput: UpdateOrganizationInput,
     user: User,
   ): Promise<Organization> {
-    permissionGuard(this.db.organization, id, user);
-
+    await permissionGuard(this.db.organization, id, user);
     return await this.db.organization.update({
       where: { id },
       data: { ...updateOrganizationInput },
@@ -36,8 +35,7 @@ export class OrganizationsService {
   }
 
   async remove(id: string, user: User): Promise<Organization> {
-    permissionGuard(this.db.organization, id, user);
-
+    await permissionGuard(this.db.organization, id, user);
     return await this.db.organization.delete({ where: { id } });
   }
 }

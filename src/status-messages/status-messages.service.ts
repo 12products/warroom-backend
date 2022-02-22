@@ -40,7 +40,7 @@ export class StatusMessagesService {
     const { id, ...updateStatusMessageData } = updateStatusMessageInput;
 
     const statusMessage = await this.findOne(id);
-    permissionGuard(this.db.incident, statusMessage.incidentId, user);
+    await permissionGuard(this.db.incident, statusMessage.incidentId, user);
 
     return await this.db.statusMessage.update({
       where: { id },
@@ -52,7 +52,7 @@ export class StatusMessagesService {
 
   async remove(id: string, user: User): Promise<StatusMessage> {
     const statusMessage = await this.findOne(id);
-    permissionGuard(this.db.incident, statusMessage.incidentId, user);
+    await permissionGuard(this.db.incident, statusMessage.incidentId, user);
 
     return await this.db.statusMessage.delete({
       where: { id },

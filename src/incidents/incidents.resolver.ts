@@ -26,6 +26,11 @@ export class IncidentsResolver {
     return this.incidentsService.findOne(id, user);
   }
 
+  @Query('incidentRoomURL')
+  findRoomURL(@Args('id') id: string, @CurrentUser() user: User) {
+    return this.incidentsService.findRoomURL(id, user);
+  }
+
   @Mutation('updateIncident')
   update(
     @Args('updateIncidentInput') updateIncidentInput: UpdateIncidentInput,
