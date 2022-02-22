@@ -1,11 +1,8 @@
 import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
 
 import { ServiceGroupsService } from './service-groups.service';
-import {
-  CreateServiceGroupInput,
-  UpdateServiceGroupInput,
-  User,
-} from '../graphql';
+import { CreateServiceGroupInput, UpdateServiceGroupInput } from '../graphql';
+import { User } from '@prisma/client';
 import { CurrentUser } from '../auth/current-user.decorator';
 
 @Resolver('ServiceGroup')
@@ -18,7 +15,7 @@ export class ServiceGroupsResolver {
     createServiceGroupInput: CreateServiceGroupInput,
     @CurrentUser() user: User,
   ) {
-    return this.serviceGroupsService.create(createServiceGroupInput, user.id);
+    return this.serviceGroupsService.create(createServiceGroupInput, user);
   }
 
   @Query('serviceGroups')
