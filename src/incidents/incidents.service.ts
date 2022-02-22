@@ -30,6 +30,7 @@ export class IncidentsService {
     if (assigneeId) {
       data['assignee'] = { connect: { id: assigneeId } };
     }
+
     return await this.db.incident.create({ data });
   }
 
