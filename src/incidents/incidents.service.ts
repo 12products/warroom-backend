@@ -1,9 +1,9 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 
-import { Incident } from '@prisma/client';
+import { Incident, User } from '@prisma/client';
 import { permissionGuard } from '../auth/permission.guard';
 import { DatabaseService } from '../database/database.service';
-import { CreateIncidentInput, UpdateIncidentInput, User } from '../graphql';
+import { CreateIncidentInput, UpdateIncidentInput } from '../graphql';
 import { UsersService } from '../users/users.service';
 
 @Injectable()
@@ -17,46 +17,64 @@ export class IncidentsService {
     createIncidentInput: CreateIncidentInput,
     user: User,
   ): Promise<Incident> {
-    const { serviceId, ...createIncidentData } = createIncidentInput;
+    const { organizationId } = await this.usersService.findOne(user.id);
+    const { serviceId, assigneeId, ...createIncidentData } =
+      createIncidentInput;
 
-    return await this.db.incident.create({
-      data: {
-        ...createIncidentData,
-        organization: { connect: { id: user.organization.id } },
-        service: { connect: { id: serviceId } },
-      },
-    });
+    const data = {
+      ...createIncidentData,
+      organization: { connect: { id: organizationId } },
+      service: { connect: { id: serviceId } },
+    };
+
+    if (assigneeId) {
+      data['assignee'] = { connect: { id: assigneeId } };
+    }
+    return await this.db.incident.create({ data });
   }
 
   async findAll(user: User): Promise<Incident[]> {
     return await this.db.incident.findMany({
-      where: { organization: { id: user.organization.id } },
+      where: { organization: { id: user.organizationId } },
     });
   }
 
   async findOne(id: string, user: User): Promise<Incident> {
     const incident = await this.db.incident.findUnique({
       where: { id },
+      include: {
+        statusMessage: true,
+        assignee: true,
+        actionItems: true,
+        events: true,
+      },
     });
 
-    if (incident.organizationId !== user.organization.id) {
+    if (incident.organizationId !== user.organizationId) {
       throw new UnauthorizedException();
     }
-
     return incident;
   }
 
   async update(
-    id: string,
     updateIncidentInput: UpdateIncidentInput,
     user: User,
   ): Promise<Incident> {
+    const { assigneeId, id, ...updateIncidentData } = updateIncidentInput;
     permissionGuard(this.db.incident, id, user);
 
-    return await this.db.incident.update({
+    const updateParams = {
       where: { id },
-      data: { ...updateIncidentInput },
-    });
+      data: {
+        ...updateIncidentData,
+      },
+    };
+
+    if (assigneeId) {
+      updateParams.data['assignee'] = { connect: { id: assigneeId } };
+    }
+
+    return await this.db.incident.update(updateParams);
   }
 
   async remove(id: string, user: User): Promise<Incident> {

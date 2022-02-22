@@ -1,8 +1,9 @@
 import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
 
 import { UsersService } from './users.service';
-import { CreateUserInput, UpdateUserInput, User } from '../graphql';
+import { CreateUserInput, UpdateUserInput } from '../graphql';
 import { CurrentUser } from '../auth/current-user.decorator';
+import { User } from '@prisma/client';
 
 @Resolver('User')
 export class UsersResolver {
@@ -17,8 +18,8 @@ export class UsersResolver {
   }
 
   @Query('users')
-  findAll() {
-    return this.usersService.findAll();
+  findAll(@CurrentUser() user: User) {
+    return this.usersService.findAll(user);
   }
 
   @Query('user')
