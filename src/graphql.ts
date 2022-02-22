@@ -72,6 +72,7 @@ export interface UpdateIncidentInput {
     severity?: Nullable<IncidentSeverity>;
     assigneeId?: Nullable<string>;
     serviceId?: Nullable<string>;
+    roomURL?: Nullable<string>;
 }
 
 export interface CreateOrganizationInput {
@@ -155,6 +156,7 @@ export interface IQuery {
     incidents(): Nullable<Incident>[] | Promise<Nullable<Incident>[]>;
     incident(id: string): Nullable<Incident> | Promise<Nullable<Incident>>;
     incidentsByOrganizationId(orgId: string): Nullable<Incident>[] | Promise<Nullable<Incident>[]>;
+    incidentRoomURL(id: string): Nullable<string> | Promise<Nullable<string>>;
     organizations(): Nullable<Organization>[] | Promise<Nullable<Organization>[]>;
     organization(id: string): Nullable<Organization> | Promise<Nullable<Organization>>;
     serviceGroups(): Nullable<ServiceGroup>[] | Promise<Nullable<ServiceGroup>[]>;
@@ -214,6 +216,7 @@ export interface Incident {
     statusMessage?: Nullable<Nullable<StatusMessage>[]>;
     actionItems?: Nullable<Nullable<ActionItem>[]>;
     severity: IncidentSeverity;
+    roomURL?: Nullable<string>;
     incidentDate: DateTime;
     createdAt: DateTime;
     updatedAt: DateTime;

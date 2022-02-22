@@ -62,7 +62,7 @@ export class ServicesService {
   ): Promise<Service> {
     const { id, ...updateServiceData } = updateServiceInput;
 
-    permissionGuard(this.db.service, id, user);
+    await permissionGuard(this.db.service, id, user);
 
     return await this.db.service.update({
       where: { id },
@@ -71,7 +71,7 @@ export class ServicesService {
   }
 
   async remove(id: string, user: User): Promise<Service> {
-    permissionGuard(this.db.service, id, user);
+    await permissionGuard(this.db.service, id, user);
     return await this.db.service.delete({ where: { id } });
   }
 }

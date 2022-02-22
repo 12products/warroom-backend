@@ -10,6 +10,7 @@ type Incident {
   statusMessage: [StatusMessage]
   actionItems: [ActionItem]
   severity: IncidentSeverity!
+  roomURL: String
   incidentDate: DateTime!
   createdAt: DateTime!
   updatedAt: DateTime!
@@ -46,12 +47,14 @@ input UpdateIncidentInput {
   severity: IncidentSeverity
   assigneeId: String
   serviceId: String
+  roomURL: String
 }
 
 type Query {
   incidents: [Incident]!
   incident(id: ID!): Incident
   incidentsByOrganizationId(orgId: ID!): [Incident]!
+  incidentRoomURL(id: ID!): String
 }
 
 type Mutation {

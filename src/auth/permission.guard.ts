@@ -10,4 +10,6 @@ export const permissionGuard = async (db: any, id: string, user: User) => {
   if (resource.organizationId !== user.organizationId) {
     throw new UnauthorizedException();
   }
+
+  return resource;
 };
