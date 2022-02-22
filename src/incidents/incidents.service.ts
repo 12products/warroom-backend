@@ -80,7 +80,7 @@ export class IncidentsService {
         roomURL = url;
 
         // Save the URL to the database
-        await this.update(id, { id, roomURL }, user);
+        await this.update({ id, roomURL }, user);
       } catch (e) {
         console.error(`Failed to create room for incident (${id}): ${e}`);
       }
