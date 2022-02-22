@@ -1,5 +1,5 @@
 import { HttpService } from '@nestjs/axios';
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { map, lastValueFrom } from 'rxjs';
 
