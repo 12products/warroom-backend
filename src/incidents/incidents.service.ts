@@ -46,7 +46,11 @@ export class IncidentsService {
     const incident = await this.db.incident.findUnique({
       where: { id },
       include: {
-        statusMessage: true,
+        statusMessage: {
+          orderBy: {
+            createdAt: 'desc',
+          },
+        },
         assignee: true,
         actionItems: true,
         events: true,
