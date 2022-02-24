@@ -247,7 +247,7 @@ export interface Service {
     status?: Nullable<ServiceStatus>;
     link?: Nullable<string>;
     private?: Nullable<boolean>;
-    incident?: Nullable<Nullable<Incident>[]>;
+    incidents?: Nullable<Nullable<Incident>[]>;
     organization?: Nullable<Organization>;
     serviceGroup?: Nullable<ServiceGroup>;
     createdAt: DateTime;

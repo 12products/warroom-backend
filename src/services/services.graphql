@@ -5,7 +5,7 @@ type Service {
   status: ServiceStatus
   link: String
   private: Boolean
-  incident: [Incident]
+  incidents: [Incident]
   organization: Organization
   serviceGroup: ServiceGroup
   createdAt: DateTime!

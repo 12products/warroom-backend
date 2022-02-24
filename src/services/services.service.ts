@@ -39,13 +39,14 @@ export class ServicesService {
   async findAll(user: User): Promise<Service[]> {
     return await this.db.service.findMany({
       where: { organization: { id: user.organizationId } },
+      include: { incidents: true },
     });
   }
 
   async findOne(id: string, user: User): Promise<Service> {
     const service = await this.db.service.findUnique({
       where: { id },
-      include: { incident: true, organization: true },
+      include: { incidents: true, organization: true },
     });
 
     if (service.organization.id !== user.organizationId) {
