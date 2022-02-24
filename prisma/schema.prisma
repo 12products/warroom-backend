@@ -50,7 +50,7 @@ model Service {
   status         ServiceStatus @default(OPERATIONAL)
   link           String?
   private        Boolean
-  incident       Incident[]
+  incidents      Incident[]
   organization   Organization  @relation(fields: [organizationId], references: [id])
   organizationId String
   serviceGroup   ServiceGroup? @relation(fields: [serviceGroupId], references: [id])
@@ -96,6 +96,7 @@ model ActionItems {
   userId     String?
   incident   Incident? @relation(fields: [incidentId], references: [id])
   incidentId String?
+  completed  Boolean   @default(false)
   createdAt  DateTime  @default(now())
   updatedAt  DateTime  @updatedAt
 }
