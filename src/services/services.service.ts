@@ -45,7 +45,7 @@ export class ServicesService {
   async findOne(id: string, user: User): Promise<Service> {
     const service = await this.db.service.findUnique({
       where: { id },
-      include: { incident: true, organization: true },
+      include: { incidents: true, organization: true },
     });
 
     if (service.organization.id !== user.organizationId) {
