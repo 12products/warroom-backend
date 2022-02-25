@@ -159,6 +159,7 @@ export interface IQuery {
     incidentRoomURL(id: string): Nullable<string> | Promise<Nullable<string>>;
     organizations(): Nullable<Organization>[] | Promise<Nullable<Organization>[]>;
     organization(id: string): Nullable<Organization> | Promise<Nullable<Organization>>;
+    organizationStatus(id: string): Nullable<Organization> | Promise<Nullable<Organization>>;
     serviceGroups(): Nullable<ServiceGroup>[] | Promise<Nullable<ServiceGroup>[]>;
     serviceGroup(id: string): Nullable<ServiceGroup> | Promise<Nullable<ServiceGroup>>;
     services(): Nullable<Service>[] | Promise<Nullable<Service>[]>;
