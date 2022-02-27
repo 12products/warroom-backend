@@ -42,6 +42,11 @@ export class IncidentsResolver {
     return this.incidentsService.findAllByAssignedId(user);
   }
 
+  @Query('openIncidents')
+  openIncidents(@CurrentUser() user: User) {
+    return this.incidentsService.findAllOpenIncidents(user);
+  }
+
   @Mutation('updateIncident')
   update(
     @Args('updateIncidentInput') updateIncidentInput: UpdateIncidentInput,

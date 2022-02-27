@@ -3,10 +3,11 @@ import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { map, lastValueFrom } from 'rxjs';
 
-import { Incident, User } from '@prisma/client';
+import { Incident, User, IncidentStatus } from '@prisma/client';
 import { permissionGuard } from '../auth/permission.guard';
 import { DatabaseService } from '../database/database.service';
 import { CreateIncidentInput, UpdateIncidentInput } from '../graphql';
+import { STATUS_CODES } from 'http';
 
 @Injectable()
 export class IncidentsService {
@@ -110,6 +111,17 @@ export class IncidentsService {
   async findAllByAssignedId(user: User): Promise<Incident[]> {
     return await this.db.incident.findMany({
       where: { assigneeId: user.id },
+    });
+  }
+
+  async findAllOpenIncidents(user: User): Promise<Incident[]> {
+    return await this.db.incident.findMany({
+      where: {
+        organizationId: user.organizationId,
+        NOT: {
+          status: IncidentStatus.RESOLVED,
+        },
+      },
     });
   }
 
