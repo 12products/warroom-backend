@@ -101,6 +101,18 @@ export class IncidentsService {
     return roomURL;
   }
 
+  async findAllByServiceId(id: string): Promise<Incident[]> {
+    return await this.db.incident.findMany({
+      where: { service: { id } },
+    });
+  }
+
+  async findAllByAssignedId(user: User): Promise<Incident[]> {
+    return await this.db.incident.findMany({
+      where: { assigneeId: user.id },
+    });
+  }
+
   async update(
     updateIncidentInput: UpdateIncidentInput,
     user: User,

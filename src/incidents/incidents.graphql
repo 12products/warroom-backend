@@ -53,8 +53,9 @@ input UpdateIncidentInput {
 type Query {
   incidents: [Incident]!
   incident(id: ID!): Incident
-  incidentsByOrganizationId(orgId: ID!): [Incident]!
+  incidentsByServiceId(serviceId: ID!): [Incident]!
   incidentRoomURL(id: ID!): String
+  incidentsByAssignedId: [Incident]!
 }
 
 type Mutation {
