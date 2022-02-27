@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { sub } from 'date-fns';
 
 import { Organization, User } from '@prisma/client';
 import { permissionGuard } from '../auth/permission.guard';
@@ -8,6 +9,23 @@ import { UpdateOrganizationInput, CreateOrganizationInput } from '../graphql';
 @Injectable()
 export class OrganizationsService {
   constructor(private readonly db: DatabaseService) {}
+
+  async status(id: string): Promise<Organization> {
+    // Get the organization, all of its services
+    // and 60 days worth of incidents
+    return await this.db.organization.findUnique({
+      where: { id },
+      include: {
+        services: {
+          include: {
+            incidents: {
+              where: { incidentDate: { gte: sub(new Date(), { days: 60 }) } },
+            },
+          },
+        },
+      },
+    });
+  }
 
   async create(
     createOrganizationInput: CreateOrganizationInput,
