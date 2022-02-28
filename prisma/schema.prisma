@@ -60,7 +60,8 @@ model Service {
 }
 
 model Incident {
-  id             String           @id @default(uuid())
+  id             Int              @id @default(autoincrement())
+  tag            String
   title          String
   description    String
   status         IncidentStatus   @default(INVESTIGATING)
@@ -84,7 +85,7 @@ model Event {
   id         String    @id @default(uuid())
   text       String
   incident   Incident? @relation(fields: [incidentId], references: [id])
-  incidentId String?
+  incidentId Int?
   createdAt  DateTime  @default(now())
   updatedAt  DateTime  @updatedAt
 }
@@ -95,7 +96,7 @@ model ActionItems {
   owner      User?     @relation(fields: [userId], references: [id])
   userId     String?
   incident   Incident? @relation(fields: [incidentId], references: [id])
-  incidentId String?
+  incidentId Int?
   completed  Boolean   @default(false)
   createdAt  DateTime  @default(now())
   updatedAt  DateTime  @updatedAt
@@ -105,7 +106,7 @@ model StatusMessage {
   id         String         @id @default(uuid())
   text       String
   incident   Incident       @relation(fields: [incidentId], references: [id])
-  incidentId String
+  incidentId Int
   status     IncidentStatus
   createdAt  DateTime       @default(now())
   updatedAt  DateTime       @updatedAt

@@ -66,7 +66,7 @@ export interface CreateIncidentInput {
 }
 
 export interface UpdateIncidentInput {
-    id: string;
+    id: number;
     description?: Nullable<string>;
     status?: Nullable<IncidentStatus>;
     severity?: Nullable<IncidentSeverity>;
@@ -210,6 +210,7 @@ export interface Event {
 export interface Incident {
     id: string;
     title: string;
+    tag: string;
     description: string;
     assignee?: Nullable<User>;
     status?: Nullable<IncidentStatus>;

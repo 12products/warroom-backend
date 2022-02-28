@@ -3,15 +3,11 @@ import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { Service, User } from '@prisma/client';
 import { permissionGuard } from '../auth/permission.guard';
 import { DatabaseService } from '../database/database.service';
-import { UsersService } from '../users/users.service';
 import { CreateServiceInput, UpdateServiceInput } from '../graphql';
 
 @Injectable()
 export class ServicesService {
-  constructor(
-    private readonly db: DatabaseService,
-    private readonly usersService: UsersService,
-  ) {}
+  constructor(private readonly db: DatabaseService) {}
   async create(
     createServiceInput: CreateServiceInput,
     user: User,

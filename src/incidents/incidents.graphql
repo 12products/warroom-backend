@@ -1,6 +1,7 @@
 type Incident {
   id: ID!
   title: String!
+  tag: String!
   description: String!
   assignee: User
   status: IncidentStatus
@@ -41,7 +42,7 @@ input CreateIncidentInput {
 }
 
 input UpdateIncidentInput {
-  id: ID!
+  id: Int!
   description: String
   status: IncidentStatus
   severity: IncidentSeverity
