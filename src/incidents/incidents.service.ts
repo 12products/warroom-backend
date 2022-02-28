@@ -28,7 +28,6 @@ export class IncidentsService {
     });
 
     const updatedIncidentNum = service.incidentNumber + 1;
-    console.log({ service, updatedIncidentNum });
     const tag = `${service.name
       .slice(0, 3)
       .toUpperCase()}-${updatedIncidentNum}`;
