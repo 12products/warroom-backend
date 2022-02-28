@@ -55,7 +55,7 @@ type Query {
   incident(id: ID!): Incident
   incidentsByServiceId(serviceId: ID!): [Incident]!
   incidentRoomURL(id: ID!): String
-  incidentsByAssignedId: [Incident]!
+  assignedIncidents: [Incident]!
   openIncidents: [Incident]!
 }
 

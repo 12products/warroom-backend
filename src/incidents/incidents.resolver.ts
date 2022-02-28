@@ -37,9 +37,9 @@ export class IncidentsResolver {
     return this.incidentsService.findAllByServiceId(serviceId);
   }
 
-  @Query('incidentsByAssignedId')
-  incidentsByAssignedId(@CurrentUser() user: User) {
-    return this.incidentsService.findAllByAssignedId(user);
+  @Query('assignedIncidents')
+  assignedIncidents(@CurrentUser() user: User) {
+    return this.incidentsService.findAllByAssignedIncidents(user);
   }
 
   @Query('openIncidents')

@@ -7,7 +7,6 @@ import { Incident, User, IncidentStatus } from '@prisma/client';
 import { permissionGuard } from '../auth/permission.guard';
 import { DatabaseService } from '../database/database.service';
 import { CreateIncidentInput, UpdateIncidentInput } from '../graphql';
-import { STATUS_CODES } from 'http';
 
 @Injectable()
 export class IncidentsService {
@@ -108,7 +107,7 @@ export class IncidentsService {
     });
   }
 
-  async findAllByAssignedId(user: User): Promise<Incident[]> {
+  async findAllByAssignedIncidents(user: User): Promise<Incident[]> {
     return await this.db.incident.findMany({
       where: { assigneeId: user.id },
     });

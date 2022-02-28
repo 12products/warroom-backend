@@ -157,7 +157,7 @@ export interface IQuery {
     incident(id: string): Nullable<Incident> | Promise<Nullable<Incident>>;
     incidentsByServiceId(serviceId: string): Nullable<Incident>[] | Promise<Nullable<Incident>[]>;
     incidentRoomURL(id: string): Nullable<string> | Promise<Nullable<string>>;
-    incidentsByAssignedId(): Nullable<Incident>[] | Promise<Nullable<Incident>[]>;
+    assignedIncidents(): Nullable<Incident>[] | Promise<Nullable<Incident>[]>;
     openIncidents(): Nullable<Incident>[] | Promise<Nullable<Incident>[]>;
     organizations(): Nullable<Organization>[] | Promise<Nullable<Organization>[]>;
     organization(id: string): Nullable<Organization> | Promise<Nullable<Organization>>;
