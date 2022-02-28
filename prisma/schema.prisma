@@ -51,6 +51,7 @@ model Service {
   link           String?
   private        Boolean
   incidents      Incident[]
+  incidentNumber Int
   organization   Organization  @relation(fields: [organizationId], references: [id])
   organizationId String
   serviceGroup   ServiceGroup? @relation(fields: [serviceGroupId], references: [id])
@@ -61,6 +62,7 @@ model Service {
 
 model Incident {
   id             String           @id @default(uuid())
+  tag            String
   title          String
   description    String
   status         IncidentStatus   @default(INVESTIGATING)

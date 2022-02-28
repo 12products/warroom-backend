@@ -23,8 +23,23 @@ export class IncidentsService {
     const { serviceId, assigneeId, ...createIncidentData } =
       createIncidentInput;
 
+    const service = await this.db.service.findUnique({
+      where: { id: serviceId },
+    });
+
+    const updatedIncidentNum = service.incidentNumber + 1;
+    const tag = `${service.name
+      .slice(0, 3)
+      .toUpperCase()}-${updatedIncidentNum}`;
+
+    await this.db.service.update({
+      where: { id: serviceId },
+      data: { incidentNumber: updatedIncidentNum },
+    });
+
     const data = {
       ...createIncidentData,
+      tag,
       organization: { connect: { id: user.organizationId } },
       service: { connect: { id: serviceId } },
     };

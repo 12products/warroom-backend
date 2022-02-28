@@ -109,6 +109,7 @@ export interface UpdateServiceInput {
     link?: Nullable<string>;
     private?: Nullable<boolean>;
     serviceGroupId?: Nullable<string>;
+    incidentNumber?: Nullable<number>;
 }
 
 export interface CreateStatusMessageInput {
@@ -210,6 +211,7 @@ export interface Event {
 export interface Incident {
     id: string;
     title: string;
+    tag: string;
     description: string;
     assignee?: Nullable<User>;
     status?: Nullable<IncidentStatus>;
@@ -251,6 +253,7 @@ export interface Service {
     link?: Nullable<string>;
     private?: Nullable<boolean>;
     incidents?: Nullable<Nullable<Incident>[]>;
+    incidentNumber: number;
     organization?: Nullable<Organization>;
     serviceGroup?: Nullable<ServiceGroup>;
     createdAt: DateTime;
