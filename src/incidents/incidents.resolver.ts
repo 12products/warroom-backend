@@ -23,12 +23,12 @@ export class IncidentsResolver {
   }
 
   @Query('incident')
-  findOne(@Args('id') id: number, @CurrentUser() user: User) {
+  findOne(@Args('id') id: string, @CurrentUser() user: User) {
     return this.incidentsService.findOne(id, user);
   }
 
   @Query('incidentRoomURL')
-  findRoomURL(@Args('id') id: number, @CurrentUser() user: User) {
+  findRoomURL(@Args('id') id: string, @CurrentUser() user: User) {
     return this.incidentsService.findRoomURL(id, user);
   }
 
@@ -56,7 +56,7 @@ export class IncidentsResolver {
   }
 
   @Mutation('removeIncident')
-  remove(@Args('id') id: number, @CurrentUser() user: User) {
+  remove(@Args('id') id: string, @CurrentUser() user: User) {
     return this.incidentsService.remove(id, user);
   }
 }

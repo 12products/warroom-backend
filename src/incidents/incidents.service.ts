@@ -27,7 +27,16 @@ export class IncidentsService {
       where: { id: serviceId },
     });
 
-    const tag = service.name.slice(0, 3).toUpperCase();
+    const updatedIncidentNum = service.incidentNumber + 1;
+    console.log({ service, updatedIncidentNum });
+    const tag = `${service.name
+      .slice(0, 3)
+      .toUpperCase()}-${updatedIncidentNum}`;
+
+    await this.db.service.update({
+      where: { id: serviceId },
+      data: { incidentNumber: updatedIncidentNum },
+    });
 
     const data = {
       ...createIncidentData,
@@ -49,7 +58,7 @@ export class IncidentsService {
     });
   }
 
-  async findOne(id: number, user: User): Promise<Incident> {
+  async findOne(id: string, user: User): Promise<Incident> {
     const incident = await this.db.incident.findUnique({
       where: { id },
       include: {
@@ -71,7 +80,7 @@ export class IncidentsService {
     return incident;
   }
 
-  async findRoomURL(id: number, user: User): Promise<Incident> {
+  async findRoomURL(id: string, user: User): Promise<Incident> {
     let { roomURL } = await permissionGuard(this.db.incident, id, user);
 
     // Create a room on Daily if required
@@ -152,7 +161,7 @@ export class IncidentsService {
     return await this.db.incident.update(updateParams);
   }
 
-  async remove(id: number, user: User): Promise<Incident> {
+  async remove(id: string, user: User): Promise<Incident> {
     await permissionGuard(this.db.incident, id, user);
     return await this.db.incident.delete({ where: { id } });
   }

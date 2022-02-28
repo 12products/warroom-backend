@@ -16,6 +16,7 @@ export class ServicesService {
 
     const data = {
       ...createServiceData,
+      incidentNumber: 0,
       organization: {
         connect: { id: user.organizationId },
       },

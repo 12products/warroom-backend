@@ -66,7 +66,7 @@ export interface CreateIncidentInput {
 }
 
 export interface UpdateIncidentInput {
-    id: number;
+    id: string;
     description?: Nullable<string>;
     status?: Nullable<IncidentStatus>;
     severity?: Nullable<IncidentSeverity>;
@@ -109,6 +109,7 @@ export interface UpdateServiceInput {
     link?: Nullable<string>;
     private?: Nullable<boolean>;
     serviceGroupId?: Nullable<string>;
+    incidentNumber?: Nullable<number>;
 }
 
 export interface CreateStatusMessageInput {
@@ -252,6 +253,7 @@ export interface Service {
     link?: Nullable<string>;
     private?: Nullable<boolean>;
     incidents?: Nullable<Nullable<Incident>[]>;
+    incidentNumber: number;
     organization?: Nullable<Organization>;
     serviceGroup?: Nullable<ServiceGroup>;
     createdAt: DateTime;

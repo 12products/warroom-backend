@@ -42,7 +42,7 @@ input CreateIncidentInput {
 }
 
 input UpdateIncidentInput {
-  id: Int!
+  id: ID!
   description: String
   status: IncidentStatus
   severity: IncidentSeverity
