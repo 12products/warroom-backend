@@ -56,7 +56,7 @@ type Query {
   incidentsByServiceId(serviceId: ID!): [Incident]!
   incidentRoomURL(id: ID!): String
   incidentsByAssignedId: [Incident]!
-  openIncidents: [Incidents]!
+  openIncidents: [Incident]!
 }
 
 type Mutation {

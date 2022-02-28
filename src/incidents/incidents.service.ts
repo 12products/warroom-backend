@@ -104,7 +104,7 @@ export class IncidentsService {
 
   async findAllByServiceId(id: string): Promise<Incident[]> {
     return await this.db.incident.findMany({
-      where: { service: { id } },
+      where: { serviceId: id },
     });
   }
 

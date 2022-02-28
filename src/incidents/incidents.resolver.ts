@@ -33,8 +33,8 @@ export class IncidentsResolver {
   }
 
   @Query('incidentsByServiceId')
-  incidentsByServiceId(id: string) {
-    return this.incidentsService.findAllByServiceId(id);
+  incidentsByServiceId(@Args('serviceId') serviceId: string) {
+    return this.incidentsService.findAllByServiceId(serviceId);
   }
 
   @Query('incidentsByAssignedId')
