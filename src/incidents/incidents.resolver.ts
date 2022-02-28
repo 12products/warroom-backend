@@ -32,6 +32,21 @@ export class IncidentsResolver {
     return this.incidentsService.findRoomURL(id, user);
   }
 
+  @Query('incidentsByServiceId')
+  incidentsByServiceId(@Args('serviceId') serviceId: string) {
+    return this.incidentsService.findAllByServiceId(serviceId);
+  }
+
+  @Query('assignedIncidents')
+  assignedIncidents(@CurrentUser() user: User) {
+    return this.incidentsService.findAllByAssignedIncidents(user);
+  }
+
+  @Query('openIncidents')
+  openIncidents(@CurrentUser() user: User) {
+    return this.incidentsService.findAllOpenIncidents(user);
+  }
+
   @Mutation('updateIncident')
   update(
     @Args('updateIncidentInput') updateIncidentInput: UpdateIncidentInput,
