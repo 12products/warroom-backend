@@ -85,6 +85,7 @@ model Incident {
 model Event {
   id         String    @id @default(uuid())
   text       String
+  type       EventType @default(GENERIC)
   incident   Incident? @relation(fields: [incidentId], references: [id])
   incidentId String?
   createdAt  DateTime  @default(now())
@@ -117,6 +118,13 @@ enum Role {
   ADMIN
   EDITOR
   VIEWER
+}
+
+enum EventType {
+  CAUSE
+  DETECTION
+  RESOLUTION
+  GENERIC
 }
 
 enum ServiceStatus {

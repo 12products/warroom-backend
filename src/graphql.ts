@@ -7,6 +7,13 @@
 
 /* tslint:disable */
 /* eslint-disable */
+export enum EventType {
+    CAUSE = "CAUSE",
+    DETECTION = "DETECTION",
+    RESOLUTION = "RESOLUTION",
+    GENERIC = "GENERIC"
+}
+
 export enum IncidentStatus {
     INVESTIGATING = "INVESTIGATING",
     IDENTIFIED = "IDENTIFIED",
@@ -48,11 +55,13 @@ export interface UpdateActionItemInput {
 export interface CreateEventInput {
     text: string;
     incidentId?: Nullable<string>;
+    type?: Nullable<EventType>;
 }
 
 export interface UpdateEventInput {
     id: string;
     text?: Nullable<string>;
+    type?: Nullable<EventType>;
 }
 
 export interface CreateIncidentInput {
@@ -153,7 +162,9 @@ export interface IQuery {
     actionItem(id: string): Nullable<ActionItem> | Promise<Nullable<ActionItem>>;
     actionItemsByUserID(userId: string): Nullable<Nullable<ActionItem>[]> | Promise<Nullable<Nullable<ActionItem>[]>>;
     actionItemsByIncidentID(incidentId: string): Nullable<Nullable<ActionItem>[]> | Promise<Nullable<Nullable<ActionItem>[]>>;
-    eventsByIncidentId(incidentId: string): Nullable<Nullable<Event>[]> | Promise<Nullable<Nullable<Event>[]>>;
+    causeEventByIncidentId(incidentId: string): Nullable<Event> | Promise<Nullable<Event>>;
+    detectionEventByIncidentId(incidentId: string): Nullable<Event> | Promise<Nullable<Event>>;
+    resolutionEventByIncidentId(incidentId: string): Nullable<Event> | Promise<Nullable<Event>>;
     incidents(): Nullable<Incident>[] | Promise<Nullable<Incident>[]>;
     incident(id: string): Nullable<Incident> | Promise<Nullable<Incident>>;
     incidentsByServiceId(serviceId: string): Nullable<Incident>[] | Promise<Nullable<Incident>[]>;
@@ -203,6 +214,7 @@ export interface IMutation {
 export interface Event {
     id: string;
     text?: Nullable<string>;
+    type?: Nullable<EventType>;
     incident?: Nullable<Incident>;
     createdAt: DateTime;
     updatedAt: DateTime;
