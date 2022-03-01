@@ -171,6 +171,7 @@ export interface IQuery {
     incidentRoomURL(id: string): Nullable<string> | Promise<Nullable<string>>;
     assignedIncidents(): Nullable<Incident>[] | Promise<Nullable<Incident>[]>;
     openIncidents(): Nullable<Incident>[] | Promise<Nullable<Incident>[]>;
+    incidentEventTime(id: string): Nullable<IncidentTime> | Promise<Nullable<IncidentTime>>;
     organizations(): Nullable<Organization>[] | Promise<Nullable<Organization>[]>;
     organization(id: string): Nullable<Organization> | Promise<Nullable<Organization>>;
     organizationStatus(id: string): Nullable<Organization> | Promise<Nullable<Organization>>;
@@ -237,6 +238,11 @@ export interface Incident {
     incidentDate: DateTime;
     createdAt: DateTime;
     updatedAt: DateTime;
+}
+
+export interface IncidentTime {
+    TTR?: Nullable<string>;
+    TTD?: Nullable<string>;
 }
 
 export interface Organization {

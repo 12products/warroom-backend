@@ -2,12 +2,41 @@ import { HttpService } from '@nestjs/axios';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { map, lastValueFrom } from 'rxjs';
+import { differenceInMinutes, differenceInHours } from 'date-fns';
 
-import { Incident, User, IncidentStatus } from '@prisma/client';
+import {
+  Incident,
+  User,
+  IncidentStatus,
+  EventType,
+  Event,
+} from '@prisma/client';
 import { permissionGuard } from '../auth/permission.guard';
 import { DatabaseService } from '../database/database.service';
-import { CreateIncidentInput, UpdateIncidentInput } from '../graphql';
+import {
+  CreateIncidentInput,
+  IncidentTime,
+  UpdateIncidentInput,
+} from '../graphql';
 
+const calculateTime = (earlierEvent: Event, laterEvent: Event): string => {
+  if (!earlierEvent || !laterEvent) return '?';
+  let minutes = true;
+  let timeDiff = differenceInMinutes(
+    new Date(laterEvent.createdAt),
+    new Date(earlierEvent.createdAt),
+  );
+
+  if (timeDiff > 60) {
+    timeDiff = differenceInHours(
+      new Date(laterEvent.createdAt),
+      new Date(earlierEvent.createdAt),
+    );
+    minutes = false;
+  }
+
+  return minutes ? `${timeDiff} minutes` : `${timeDiff} hours`;
+};
 @Injectable()
 export class IncidentsService {
   constructor(
@@ -137,6 +166,34 @@ export class IncidentsService {
         },
       },
     });
+  }
+
+  async findIncidentTime(id: string): Promise<IncidentTime> {
+    const { events } = await this.db.incident.findUnique({
+      where: { id },
+      include: {
+        events: true,
+      },
+    });
+
+    let causeEvent, detectionEvent, resolutionEvent;
+
+    events.forEach((event) => {
+      switch (event.type) {
+        case EventType.CAUSE:
+          causeEvent = event;
+          break;
+        case EventType.RESOLUTION:
+          resolutionEvent = event;
+          break;
+        case EventType.DETECTION:
+          detectionEvent = event;
+          break;
+      }
+    });
+    const TTD = calculateTime(causeEvent, detectionEvent);
+    const TTR = calculateTime(detectionEvent, resolutionEvent);
+    return { TTD, TTR };
   }
 
   async update(

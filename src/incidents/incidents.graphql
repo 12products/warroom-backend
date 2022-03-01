@@ -58,6 +58,12 @@ type Query {
   incidentRoomURL(id: ID!): String
   assignedIncidents: [Incident]!
   openIncidents: [Incident]!
+  incidentEventTime(id: ID!): IncidentTime
+}
+
+type IncidentTime {
+  TTR: String
+  TTD: String
 }
 
 type Mutation {
