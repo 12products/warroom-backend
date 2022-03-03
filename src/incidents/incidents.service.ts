@@ -2,7 +2,7 @@ import { HttpService } from '@nestjs/axios';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { map, lastValueFrom } from 'rxjs';
-import { differenceInMinutes, differenceInHours } from 'date-fns';
+import { formatDuration, intervalToDuration } from 'date-fns';
 
 import {
   Incident,
@@ -24,21 +24,13 @@ const calculateTimeDifferenceString = (
   laterEvent: Event,
 ): string => {
   if (!earlierEvent || !laterEvent) return '?';
-  let minutes = true;
-  let timeDiff = differenceInMinutes(
-    new Date(laterEvent.createdAt),
-    new Date(earlierEvent.createdAt),
+
+  return formatDuration(
+    intervalToDuration({
+      start: new Date(earlierEvent.createdAt),
+      end: new Date(laterEvent.createdAt),
+    }),
   );
-
-  if (timeDiff > 60) {
-    timeDiff = differenceInHours(
-      new Date(laterEvent.createdAt),
-      new Date(earlierEvent.createdAt),
-    );
-    minutes = false;
-  }
-
-  return minutes ? `${timeDiff} minutes` : `${timeDiff} hours`;
 };
 
 @Injectable()
