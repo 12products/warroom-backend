@@ -19,7 +19,10 @@ import {
   UpdateIncidentInput,
 } from '../graphql';
 
-const calculateTime = (earlierEvent: Event, laterEvent: Event): string => {
+const calculateTimeDifferenceString = (
+  earlierEvent: Event,
+  laterEvent: Event,
+): string => {
   if (!earlierEvent || !laterEvent) return '?';
   let minutes = true;
   let timeDiff = differenceInMinutes(
@@ -37,6 +40,7 @@ const calculateTime = (earlierEvent: Event, laterEvent: Event): string => {
 
   return minutes ? `${timeDiff} minutes` : `${timeDiff} hours`;
 };
+
 @Injectable()
 export class IncidentsService {
   constructor(
@@ -176,23 +180,16 @@ export class IncidentsService {
       },
     });
 
-    let causeEvent, detectionEvent, resolutionEvent;
+    const causeEvent = events.find((event) => event.type === EventType.CAUSE);
+    const detectionEvent = events.find(
+      (event) => event.type === EventType.DETECTION,
+    );
+    const resolutionEvent = events.find(
+      (event) => event.type === EventType.RESOLUTION,
+    );
 
-    events.forEach((event) => {
-      switch (event.type) {
-        case EventType.CAUSE:
-          causeEvent = event;
-          break;
-        case EventType.RESOLUTION:
-          resolutionEvent = event;
-          break;
-        case EventType.DETECTION:
-          detectionEvent = event;
-          break;
-      }
-    });
-    const TTD = calculateTime(causeEvent, detectionEvent);
-    const TTR = calculateTime(detectionEvent, resolutionEvent);
+    const TTD = calculateTimeDifferenceString(causeEvent, detectionEvent);
+    const TTR = calculateTimeDifferenceString(detectionEvent, resolutionEvent);
     return { TTD, TTR };
   }
 
