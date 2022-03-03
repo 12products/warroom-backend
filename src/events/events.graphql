@@ -1,22 +1,35 @@
 type Event {
   id: ID!
   text: String
+  type: EventType
   incident: Incident
   createdAt: DateTime!
   updatedAt: DateTime!
 }
+
+enum EventType {
+  CAUSE
+  DETECTION
+  RESOLUTION
+  GENERIC
+}
+
 input CreateEventInput {
   text: String!
   incidentId: String
+  type: EventType
 }
 
 input UpdateEventInput {
   id: ID!
   text: String
+  type: EventType
 }
 
 type Query {
-  eventsByIncidentId(incidentId: ID!): [Event]
+  causeEventByIncidentId(incidentId: ID!): Event
+  detectionEventByIncidentId(incidentId: ID!): Event
+  resolutionEventByIncidentId(incidentId: ID!): Event
 }
 
 type Mutation {

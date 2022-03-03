@@ -47,6 +47,11 @@ export class IncidentsResolver {
     return this.incidentsService.findAllOpenIncidents(user);
   }
 
+  @Query('incidentEventTime')
+  incidentTTD(@Args('id') id: string) {
+    return this.incidentsService.findIncidentTime(id);
+  }
+
   @Mutation('updateIncident')
   update(
     @Args('updateIncidentInput') updateIncidentInput: UpdateIncidentInput,

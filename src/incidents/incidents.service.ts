@@ -2,11 +2,44 @@ import { HttpService } from '@nestjs/axios';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { map, lastValueFrom } from 'rxjs';
+import { differenceInMinutes, differenceInHours } from 'date-fns';
 
-import { Incident, User, IncidentStatus } from '@prisma/client';
+import {
+  Incident,
+  User,
+  IncidentStatus,
+  EventType,
+  Event,
+} from '@prisma/client';
 import { permissionGuard } from '../auth/permission.guard';
 import { DatabaseService } from '../database/database.service';
-import { CreateIncidentInput, UpdateIncidentInput } from '../graphql';
+import {
+  CreateIncidentInput,
+  IncidentTime,
+  UpdateIncidentInput,
+} from '../graphql';
+
+const calculateTimeDifferenceString = (
+  earlierEvent: Event,
+  laterEvent: Event,
+): string => {
+  if (!earlierEvent || !laterEvent) return '?';
+  let minutes = true;
+  let timeDiff = differenceInMinutes(
+    new Date(laterEvent.createdAt),
+    new Date(earlierEvent.createdAt),
+  );
+
+  if (timeDiff > 60) {
+    timeDiff = differenceInHours(
+      new Date(laterEvent.createdAt),
+      new Date(earlierEvent.createdAt),
+    );
+    minutes = false;
+  }
+
+  return minutes ? `${timeDiff} minutes` : `${timeDiff} hours`;
+};
 
 @Injectable()
 export class IncidentsService {
@@ -137,6 +170,27 @@ export class IncidentsService {
         },
       },
     });
+  }
+
+  async findIncidentTime(id: string): Promise<IncidentTime> {
+    const { events } = await this.db.incident.findUnique({
+      where: { id },
+      include: {
+        events: true,
+      },
+    });
+
+    const causeEvent = events.find((event) => event.type === EventType.CAUSE);
+    const detectionEvent = events.find(
+      (event) => event.type === EventType.DETECTION,
+    );
+    const resolutionEvent = events.find(
+      (event) => event.type === EventType.RESOLUTION,
+    );
+
+    const TTD = calculateTimeDifferenceString(causeEvent, detectionEvent);
+    const TTR = calculateTimeDifferenceString(detectionEvent, resolutionEvent);
+    return { TTD, TTR };
   }
 
   async update(

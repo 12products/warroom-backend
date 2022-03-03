@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Event } from '@prisma/client';
+import { Event, EventType } from '@prisma/client';
 import { DatabaseService } from '../database/database.service';
 import { CreateEventInput, UpdateEventInput } from '../graphql';
 
@@ -7,11 +7,17 @@ import { CreateEventInput, UpdateEventInput } from '../graphql';
 export class EventsService {
   constructor(private readonly db: DatabaseService) {}
   async create(createEventInput: CreateEventInput): Promise<Event> {
-    const { incidentId, text } = createEventInput;
+    const { incidentId, text, type } = createEventInput;
     const data = { text };
+
     if (incidentId) {
       data['incident'] = { connect: { id: incidentId } };
+
+      if (!(await this.incidentHasEventType(incidentId, type))) {
+        data['type'] = type;
+      }
     }
+
     return await this.db.event.create({ data });
   }
 
@@ -24,5 +30,19 @@ export class EventsService {
 
   async remove(id: string): Promise<Event> {
     return await this.db.event.delete({ where: { id } });
+  }
+
+  async incidentHasEventType(
+    incidentId: string,
+    type?: EventType,
+  ): Promise<boolean> {
+    if (!type) return true;
+
+    const incident = await this.db.incident.findUnique({
+      where: { id: incidentId },
+      include: { events: true },
+    });
+
+    return incident.events.some((event) => event.type === type);
   }
 }
