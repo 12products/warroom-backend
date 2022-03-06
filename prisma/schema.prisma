@@ -33,6 +33,7 @@ model Organization {
   serviceGroups ServiceGroup[]
   createdAt     DateTime       @default(now())
   updatedAt     DateTime       @updatedAt
+  invites       Invite[]
 }
 
 model ServiceGroup {
@@ -113,6 +114,15 @@ model StatusMessage {
   status     IncidentStatus
   createdAt  DateTime       @default(now())
   updatedAt  DateTime       @updatedAt
+}
+
+model Invite {
+  id             String       @id @default(uuid())
+  code           String       @default(cuid())
+  organization   Organization @relation(fields: [organizationId], references: [id])
+  organizationId String
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
 }
 
 enum Role {

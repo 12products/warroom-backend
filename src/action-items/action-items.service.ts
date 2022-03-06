@@ -19,6 +19,7 @@ export class ActionItemsService {
     if (incidentId) {
       data['incident'] = { connect: { id: incidentId } };
     }
+
     return await this.db.actionItems.create({ data });
   }
 

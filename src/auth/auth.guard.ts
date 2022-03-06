@@ -27,14 +27,10 @@ export class WarroomAuthGuard extends AuthGuard('supabase') {
       context.getClass(),
     ]);
 
-    if (isPublic) {
-      return true;
-    }
-
     const canActivateResult = await super.canActivate(context);
 
     // End early since the user is not allowed to access this route
-    if (!canActivateResult) {
+    if (!canActivateResult && !isPublic) {
       return false;
     }
 

@@ -5,6 +5,7 @@ type Organization {
   services: [Service]
   users: [User]
   serviceGroups: [ServiceGroup]
+  invites: [Invite]
   createdAt: DateTime!
   updatedAt: DateTime!
 }
@@ -19,8 +20,7 @@ input UpdateOrganizationInput {
 }
 
 type Query {
-  organizations: [Organization]!
-  organization(id: ID!): Organization
+  organization: Organization
   organizationStatus(id: ID!): Organization
 }
 

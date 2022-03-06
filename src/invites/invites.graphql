@@ -1,0 +1,16 @@
+type Invite {
+  id: ID!
+  code: String!
+  organization: Organization!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type Query {
+  invite(code: ID!): Invite
+}
+
+type Mutation {
+  createInvite: Invite!
+  removeInvite(id: ID!): Invite!
+}

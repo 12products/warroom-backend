@@ -27,6 +27,13 @@ export class OrganizationsService {
     });
   }
 
+  async organization(user: User): Promise<Organization> {
+    return await this.db.organization.findUnique({
+      where: { id: user.organizationId },
+      include: { users: true, invites: true },
+    });
+  }
+
   async create(
     createOrganizationInput: CreateOrganizationInput,
     userId: string,

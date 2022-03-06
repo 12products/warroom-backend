@@ -140,6 +140,7 @@ export interface CreateUserInput {
     firstName: string;
     lastName: string;
     email: string;
+    inviteCode?: Nullable<string>;
 }
 
 export interface UpdateUserInput {
@@ -174,8 +175,8 @@ export interface IQuery {
     assignedIncidents(): Nullable<Incident>[] | Promise<Nullable<Incident>[]>;
     openIncidents(): Nullable<Incident>[] | Promise<Nullable<Incident>[]>;
     incidentEventTime(id: string): Nullable<IncidentTime> | Promise<Nullable<IncidentTime>>;
-    organizations(): Nullable<Organization>[] | Promise<Nullable<Organization>[]>;
-    organization(id: string): Nullable<Organization> | Promise<Nullable<Organization>>;
+    invite(code: string): Nullable<Invite> | Promise<Nullable<Invite>>;
+    organization(): Nullable<Organization> | Promise<Nullable<Organization>>;
     organizationStatus(id: string): Nullable<Organization> | Promise<Nullable<Organization>>;
     serviceGroups(): Nullable<ServiceGroup>[] | Promise<Nullable<ServiceGroup>[]>;
     serviceGroup(id: string): Nullable<ServiceGroup> | Promise<Nullable<ServiceGroup>>;
@@ -197,6 +198,8 @@ export interface IMutation {
     createIncident(createIncidentInput: CreateIncidentInput): Incident | Promise<Incident>;
     updateIncident(updateIncidentInput: UpdateIncidentInput): Incident | Promise<Incident>;
     removeIncident(id: string): Nullable<Incident> | Promise<Nullable<Incident>>;
+    createInvite(): Invite | Promise<Invite>;
+    removeInvite(id: string): Invite | Promise<Invite>;
     createOrganization(createOrganizationInput: CreateOrganizationInput): Organization | Promise<Organization>;
     updateOrganization(updateOrganizationInput: UpdateOrganizationInput): Organization | Promise<Organization>;
     removeOrganization(id: string): Nullable<Organization> | Promise<Nullable<Organization>>;
@@ -248,6 +251,14 @@ export interface IncidentTime {
     TTD?: Nullable<string>;
 }
 
+export interface Invite {
+    id: string;
+    code: string;
+    organization: Organization;
+    createdAt: DateTime;
+    updatedAt: DateTime;
+}
+
 export interface Organization {
     id: string;
     name: string;
@@ -255,6 +266,7 @@ export interface Organization {
     services?: Nullable<Nullable<Service>[]>;
     users?: Nullable<Nullable<User>[]>;
     serviceGroups?: Nullable<Nullable<ServiceGroup>[]>;
+    invites?: Nullable<Nullable<Invite>[]>;
     createdAt: DateTime;
     updatedAt: DateTime;
 }
