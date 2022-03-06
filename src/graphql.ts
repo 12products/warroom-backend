@@ -219,7 +219,7 @@ export interface Event {
     text?: Nullable<string>;
     type?: Nullable<EventType>;
     incident?: Nullable<Incident>;
-    eventTime?: Nullable<string>;
+    eventDate?: Nullable<string>;
     createdAt: DateTime;
     updatedAt: DateTime;
 }

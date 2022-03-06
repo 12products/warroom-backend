@@ -3,7 +3,7 @@ type Event {
   text: String
   type: EventType
   incident: Incident
-  eventTime: String
+  eventDate: String
   createdAt: DateTime!
   updatedAt: DateTime!
 }
