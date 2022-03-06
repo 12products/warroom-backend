@@ -5,7 +5,7 @@ import { CreateOrganizationInput, UpdateOrganizationInput } from '../graphql';
 
 import { User } from '@prisma/client';
 import { CurrentUser } from '../auth/current-user.decorator';
-import { Public } from 'src/auth/public.decorator';
+import { Public } from '../auth/public.decorator';
 
 @Resolver('Organization')
 export class OrganizationsResolver {
@@ -15,6 +15,11 @@ export class OrganizationsResolver {
   @Query('organizationStatus')
   organizationStatus(@Args('id') id: string) {
     return this.organizationsService.status(id);
+  }
+
+  @Query('organization')
+  organization(@CurrentUser() user: User) {
+    return this.organizationsService.organization(user);
   }
 
   @Mutation('createOrganization')

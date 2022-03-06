@@ -1,13 +1,36 @@
 import { Injectable } from '@nestjs/common';
+
 import { CreateUserInput, UpdateUserInput } from '../graphql';
-import { User } from '@prisma/client';
+import { Role, User } from '@prisma/client';
 import { DatabaseService } from '../database/database.service';
+import { InvitesService } from '../invites/invites.service';
 
 @Injectable()
 export class UsersService {
-  constructor(private readonly db: DatabaseService) {}
+  constructor(
+    private readonly db: DatabaseService,
+    private readonly invitesService: InvitesService,
+  ) {}
+
   async create(createUserInput: CreateUserInput, id): Promise<User> {
-    return await this.db.user.create({ data: { ...createUserInput, id } });
+    const data = { ...createUserInput, id };
+
+    // Attach the user to the organization that the invite
+    // code belongs to then delete the invite code
+    if (data.inviteCode) {
+      const invite = await this.invitesService.invite(data.inviteCode);
+      data['organization'] = { connect: { id: invite.organizationId } };
+      data['role'] = Role.EDITOR;
+      delete data.inviteCode;
+
+      const user = await this.db.user.create({ data });
+
+      this.invitesService.remove(invite.id, user);
+
+      return user;
+    }
+
+    return await this.db.user.create({ data });
   }
 
   async findAll(user: User): Promise<User[]> {
