@@ -3,6 +3,7 @@ type Event {
   text: String
   type: EventType
   incident: Incident
+  eventTime: String
   createdAt: DateTime!
   updatedAt: DateTime!
 }
@@ -17,6 +18,7 @@ enum EventType {
 input CreateEventInput {
   text: String!
   incidentId: String
+  eventDate: String
   type: EventType
 }
 
@@ -24,6 +26,7 @@ input UpdateEventInput {
   id: ID!
   text: String
   type: EventType
+  eventDate: String
 }
 
 type Query {
