@@ -55,6 +55,7 @@ export interface UpdateActionItemInput {
 export interface CreateEventInput {
     text: string;
     incidentId?: Nullable<string>;
+    eventDate?: Nullable<string>;
     type?: Nullable<EventType>;
 }
 
@@ -62,6 +63,7 @@ export interface UpdateEventInput {
     id: string;
     text?: Nullable<string>;
     type?: Nullable<EventType>;
+    eventDate?: Nullable<string>;
 }
 
 export interface CreateIncidentInput {
@@ -217,6 +219,7 @@ export interface Event {
     text?: Nullable<string>;
     type?: Nullable<EventType>;
     incident?: Nullable<Incident>;
+    eventDate?: Nullable<string>;
     createdAt: DateTime;
     updatedAt: DateTime;
 }
