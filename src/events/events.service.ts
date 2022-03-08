@@ -7,8 +7,8 @@ import { CreateEventInput, UpdateEventInput } from '../graphql';
 export class EventsService {
   constructor(private readonly db: DatabaseService) {}
   async create(createEventInput: CreateEventInput): Promise<Event> {
-    const { incidentId, text, type } = createEventInput;
-    const data = { text };
+    const { incidentId, text, type, eventDate } = createEventInput;
+    const data = { text, eventDate };
 
     if (incidentId) {
       data['incident'] = { connect: { id: incidentId } };

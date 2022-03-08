@@ -93,7 +93,11 @@ export class IncidentsService {
         },
         assignee: true,
         actionItems: true,
-        events: true,
+        events: {
+          orderBy: {
+            createdAt: 'desc',
+          },
+        },
       },
     });
 

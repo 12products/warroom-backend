@@ -16,6 +16,7 @@ import { StatusMessagesModule } from './status-messages/status-messages.module';
 import { AuthModule } from './auth/auth.module';
 import { APP_GUARD } from '@nestjs/core';
 import { WarroomAuthGuard } from './auth/auth.guard';
+import { InvitesModule } from './invites/invites.module';
 
 @Module({
   imports: [
@@ -40,6 +41,7 @@ import { WarroomAuthGuard } from './auth/auth.guard';
     ActionItemsModule,
     StatusMessagesModule,
     AuthModule,
+    InvitesModule,
   ],
   controllers: [AppController],
   providers: [
