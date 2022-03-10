@@ -38,9 +38,17 @@ export class IncidentsResolver {
     return this.incidentsService.findAllByServiceId(serviceId);
   }
 
-  @Query('incidentsByStatus')
-  incidentsByStatus(@Args('status') status: IncidentStatus) {
-    return this.incidentsService.findAllByStatus(status);
+  @Query('filteredIncidents')
+  filteredIncidents(
+    @Args('status') status: IncidentStatus,
+    @Args('assigneeId') assigneeId: string,
+    @Args('organizationId') organizationId: string,
+  ) {
+    return this.incidentsService.filterIncidents(
+      status,
+      assigneeId,
+      organizationId,
+    );
   }
 
   @Query('assignedIncidents')
