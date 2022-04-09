@@ -171,6 +171,7 @@ export interface IQuery {
     incidents(): Nullable<Incident>[] | Promise<Nullable<Incident>[]>;
     incident(id: string): Nullable<Incident> | Promise<Nullable<Incident>>;
     incidentsByServiceId(serviceId: string): Nullable<Incident>[] | Promise<Nullable<Incident>[]>;
+    filteredIncidents(status?: Nullable<string>, assigneeId?: Nullable<string>, organizationId?: Nullable<string>): Nullable<Incident>[] | Promise<Nullable<Incident>[]>;
     incidentRoomURL(id: string): Nullable<string> | Promise<Nullable<string>>;
     assignedIncidents(): Nullable<Incident>[] | Promise<Nullable<Incident>[]>;
     openIncidents(): Nullable<Incident>[] | Promise<Nullable<Incident>[]>;

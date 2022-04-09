@@ -1,3 +1,4 @@
+import { IncidentStatus } from './../graphql';
 import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
 
 import { IncidentsService } from './incidents.service';
@@ -35,6 +36,19 @@ export class IncidentsResolver {
   @Query('incidentsByServiceId')
   incidentsByServiceId(@Args('serviceId') serviceId: string) {
     return this.incidentsService.findAllByServiceId(serviceId);
+  }
+
+  @Query('filteredIncidents')
+  filteredIncidents(
+    @Args('status') status: IncidentStatus,
+    @Args('assigneeId') assigneeId: string,
+    @Args('organizationId') organizationId: string,
+  ) {
+    return this.incidentsService.filterIncidents(
+      status,
+      assigneeId,
+      organizationId,
+    );
   }
 
   @Query('assignedIncidents')

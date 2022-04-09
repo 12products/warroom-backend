@@ -151,6 +151,16 @@ export class IncidentsService {
     });
   }
 
+  async filterIncidents(
+    status: IncidentStatus,
+    assigneeId: string,
+    organizationId: string,
+  ): Promise<Incident[]> {
+    return await this.db.incident.findMany({
+      where: { status, assigneeId, organizationId },
+    });
+  }
+
   async findAllByAssignedIncidents(user: User): Promise<Incident[]> {
     return await this.db.incident.findMany({
       where: { assigneeId: user.id },
